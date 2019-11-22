@@ -3,7 +3,7 @@
 PlayerController::PlayerController()
 {
 	width = 1.0f;
-	rotationSpeed = 30.0f;
+	rotationSpeed = 45.0f;
 	window = Window::GetCurrent();
 	bIsRolling = false;
 	rot = nullptr;
@@ -22,19 +22,19 @@ void PlayerController::Attach()
 
 	//entity->SetPhysicsMode(Entity::CharacterPhysics);
 	entity->SetGravityMode(false);
-	entity->SetPosition(playerPos);
+	entity->SetPosition(Vec3(0, 1, 0));
 	entity->SetRotation(playerRot);
 	entity->SetMass(1);
 	Print("PlayerController attached to " + entity->GetClassNameA());
 
-	Model* playerBox = Model::Box(width, entity);
-	playerBox->SetPosition(0, (playerBox->GetScale().y) / 2, 0);
-	playerBox->SetMass(1);
-	playerBox->SetGravityMode(false);
-	forwardRotationPoint = Vec3(0, 0, width/2);
-	backRotationPoint = Vec3(0, 0, -width/2);
-	leftRotationPoint = Vec3(-width/2, 0, 0);
-	rightRotationPoint = Vec3(width/2, 0, 0);
+	//Model* playerBox = Model::Box(width, entity);
+	//playerBox->SetPosition(0, (playerBox->GetScale().y) / 2, 0);
+	//playerBox->SetMass(1);
+	//playerBox->SetGravityMode(false);
+	rightRotationPoint = Vec3(0, -width / 2, width/2);
+	backRotationPoint = Vec3(0, -width / 2, -width/2);
+	leftRotationPoint = Vec3(-width/2, -width / 2, 0);
+	forwardRotationPoint = Vec3(width/2, -width / 2, 0);
 
 	/*
 	Print("Player start pos: ");
@@ -49,9 +49,31 @@ void PlayerController::Attach()
 void PlayerController::UpdateWorld()
 {	
 	//entity->Move(1.0f * (Time::GetSpeed() / 30.0f), 0, 0);	// Time::GetSpeed() / 30.0f gives deltaTime
-	if (bIsRolling && rot) 
+	if (bIsRolling) 
 	{ 
+		if (angle < 90.0f)
+		{
+			float a = rotationSpeed * (Time::GetSpeed() / 30.0f);
+			angle += a;
+			Print("Angle");
+			Print(angle);
+			float offsetAngle = 45.0f + angle;
+			Print("Offset angle");
+			Print(offsetAngle);
+			Print("Sin offset");
+			Vec3 offset = Vec3(forwardRotationPoint.Length() * -Math::Cos(offsetAngle), forwardRotationPoint.Length() * Math::Sin(offsetAngle), 0);
+			Print("Offset:");
+			Print(offset);
+			entity->SetPosition(point + offset, true);
+			entity->SetRotation(entity->GetRotation(true) + Vec3(0, 0, -a), true);
+		}
+		if (angle > 90.0f)
+		{
+			
+			bIsRolling = false;
+		}
 		return;
+		/*
 		if (angle < 95.0f)
 		{
 			float a = rotationSpeed * (Time::GetSpeed() / 30.0f);
@@ -70,28 +92,27 @@ void PlayerController::UpdateWorld()
 			bIsRolling = false;
 		}
 		return; 
+		*/
 	}
-	if (window->KeyHit(Key::W) || window->KeyHit(Key::Up))
+	if (window->KeyDown(Key::W) || window->KeyDown(Key::Up))
 	{
 		// TODO: raycast check to see if blocked
-
-		Roll(forwardRotationPoint);
+		//Roll(forwardRotationPoint);
 		/*rot = Model::Create();
 		rot->SetMass(-1);
 		rot->SetGravityMode(false);
 		Vec3 playerP = entity->GetPosition(true);
 		rot->SetPosition(Vec3(playerP.x, 0, playerP.z) + forwardRotationPoint);
-
-		Print("Rot pos: ");
-		Print(rot->GetPosition(true));
-		entity->SetParent(rot);
-		relativePos = -(rot->GetPosition(true));
+		*/
+		//Print("Rot pos: ");
+		//Print(rot->GetPosition(true));
+		//entity->SetParent(rot);
+		//relativePos = -(rot->GetPosition(true));
 		angle = 0.0f;
 		point = entity->GetPosition(true) + forwardRotationPoint;
+		Print("Length");
+		Print(forwardRotationPoint.Length());
 		bIsRolling = true;
-		*/
-
-
 	}
 	else if (window->KeyDown(Key::S) || window->KeyDown(Key::Down))
 	{
@@ -147,43 +168,22 @@ void PlayerController::UpdatePhysics()
 
 int PlayerController::Roll(Vec3 rotationPoint)
 {
-	rot = Model::Create();
-	rot->SetMass(-1);
-	rot->SetGravityMode(false);
-	Vec3 playerP = entity->GetPosition(true);
-	rot->SetPosition(Vec3(playerP.x, 0, playerP.z) + forwardRotationPoint);
-
-	Print("Rot pos: ");
-	Print(rot->GetPosition(true));
-	entity->SetParent(rot);
-	relativePos = -(rot->GetPosition(true));
-	bIsRolling = true;
-
-
-
+	
 	Print("Roll called");
-	bIsRolling = true;
-	//Print("Roll called");
 	float angle = 0.0f;
 	Vec3 point = entity->GetPosition(true) + rotationPoint;
 	Vec3 up = Vec3(0, 1, 0);
 	Vec3 axis = up.Cross(rotationPoint);
 	
+	bIsRolling = true;
 	while (angle < 90.0f)
 	{
-		Print("Rotating...");
+		Print("Rolling...");
 		float a = rotationSpeed * (Time::GetSpeed() / 30.0f);
 		angle += a;
-		rot->SetRotation(rot->GetRotation(true) + Vec3(0, 0, -a), true);
-		entity->SetRotation(0, 0, 0);
-		entity->SetPosition(0, relativePos.Length() * Math::Sin(-angle), relativePos.Length() * Math::Cos(-angle));
-		Print("Angle: " + String(angle));
-		Print("Child rotation:");
-		Print(entity->GetRotation(false));
+		//entity->SetPosition(point + Vec3(0, forwardRotationPoint.Length() * sin(45.0f + angle), forwardRotationPoint.Length() * cos(45.0f + angle)), true);
+		entity->SetRotation(entity->GetRotation(true) + Vec3(0, 0, -a), true);
 	}
-	rot->SetRotation(rot->GetRotation(true) + Vec3(0, 0, 90.0f - angle), true);
-	entity->SetParent(nullptr);
-	rot->Release();
 	bIsRolling = false;
 	return 0;
 }
