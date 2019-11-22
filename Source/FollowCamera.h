@@ -7,7 +7,7 @@ using namespace Leadwerks;
 class FollowCamera : public Actor
 {
 	public:
-		FollowCamera();
+		FollowCamera(Entity* followEntity);
 		~FollowCamera();
 		virtual void Attach();
 		//virtual void Detach();
@@ -21,6 +21,11 @@ class FollowCamera : public Actor
 		//virtual void Draw();
 		//virtual void DrawEach(Camera* camera);
 		//virtual void ReceiveSignal(const std::string& inputname, Entity* sender);
-	private:
 
+
+		Camera* camera;
+		Entity* followEntity;
+	private:
+		Vec3 cameraOffset;
+		Vec3 cameraRot;
 };

@@ -1,5 +1,6 @@
 #include "App.h"
 #include "PlayerController.h"
+#include "FollowCamera.h"
 
 using namespace Leadwerks;
 
@@ -28,8 +29,12 @@ bool App::Start()
 
 	Model* player = Model::Create();
 	Actor* playerController = new PlayerController;
+	player->SetKeyValue("name", "Player");
 	player->SetActor(playerController);
-	playerController->Release();
+	//playerController->Release();
+
+	Actor* followCamera = new FollowCamera(player);
+	camera->SetActor(followCamera);
 
 	while (true)
 	{
