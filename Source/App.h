@@ -8,15 +8,18 @@ using namespace Leadwerks;
 
 class App
 {
-public:
-	Leadwerks::Window* window;
-	Context* context;
-	World* world;
-	Camera* camera;
+	public:
+		Leadwerks::Window* window;
+		Context* context;
+		World* world;
+		Camera* camera;
 
-	App();
-	virtual ~App();
+		App();
+		virtual ~App();
 
-    bool Start();
-    bool Loop();
+		bool Start();
+		bool Loop();
+
+	private:
+		bool bUseVSync;
 };
