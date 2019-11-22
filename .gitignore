@@ -3,6 +3,10 @@
 !Source/
 !Maps/
 
+!Scripts/
+Scripts/*
+!Scripts/Custom/
+
 
 
 
