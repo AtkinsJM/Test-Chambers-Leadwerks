@@ -24,8 +24,9 @@ class FollowCamera : public Actor
 
 
 		Camera* camera;
-		Entity* followEntity;
+		Entity* followTarget;
 	private:
 		Vec3 cameraOffset;
 		Vec3 cameraRot;
+		float followHeight;
 };
