@@ -27,7 +27,7 @@ bool App::Start()
 
 	window->HideMouse();
 
-	Model* player = Model::Box(1);
+	Model* player = Model::Box(1.28);
 	Actor* playerController = new PlayerController;
 	player->SetKeyValue("name", "Player");
 	player->SetActor(playerController);

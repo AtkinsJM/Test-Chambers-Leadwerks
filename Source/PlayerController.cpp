@@ -2,8 +2,8 @@
 
 PlayerController::PlayerController()
 {
-	width = 1.0f;
-	rotationSpeed = 45.0f;
+	width = 1.28f;
+	rotationSpeed = 90.0f;
 	window = Window::GetCurrent();
 	bIsRolling = false;
 	distanceFromOrigin = sqrt((width / 2) * (width / 2) * 2);
@@ -22,7 +22,7 @@ void PlayerController::Attach()
 
 	entity->SetPhysicsMode(Entity::RigidBodyPhysics);
 	entity->SetGravityMode(false);
-	entity->SetPosition(Vec3(0, 1, 0));
+	entity->SetPosition(playerPos);
 	entity->SetRotation(playerRot);
 	entity->SetMass(1);
 	Print("PlayerController attached to " + entity->GetClassNameA());
