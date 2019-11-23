@@ -19,8 +19,8 @@ class PlayerController : public Actor
 		//virtual void Draw();
 		//virtual void DrawEach(Camera* camera);
 		//virtual void ReceiveSignal(const std::string& inputname, Entity* sender);
-
-		int Roll(Vec3 rotationPoint);
+		void StartRolling(Vec3 rotationPoint);
+		void Roll();
 
 	private:
 		Vec3 forwardRotationPoint, backRotationPoint, leftRotationPoint, rightRotationPoint;
@@ -31,10 +31,8 @@ class PlayerController : public Actor
 
 		bool bIsRolling;
 
-		float angle;
-		Vec3 point;
-
-		Model* rot;
+		float rotationAngle;
+		Vec3 rotationOrigin;
 
 		Vec3 relativePos;
 };
