@@ -25,17 +25,11 @@ void PlayerController::Attach()
 	entity->SetPosition(playerPos);
 	entity->SetRotation(playerRot);
 	entity->SetMass(1);
-	Print("PlayerController attached to " + entity->GetClassNameA());
 
-	//Model* playerBox = Model::Box(width, entity);
-	//playerBox->SetPosition(0, (playerBox->GetScale().y) / 2, 0);
-	//playerBox->SetMass(1);
-	//playerBox->SetGravityMode(false);
 	rightRotationPoint = Vec3(0, -width / 2, -width/2);
 	leftRotationPoint = Vec3(0, -width / 2, width/2);
 	backRotationPoint = Vec3(-width/2, -width / 2, 0);
 	forwardRotationPoint = Vec3(width/2, -width / 2, 0);
-
 }
 
 void PlayerController::UpdateWorld()
@@ -69,37 +63,6 @@ void PlayerController::UpdateWorld()
 		// TODO: raycast check to see if blocked
 		StartRolling(rightRotationPoint);
 	}
-	/*
-	if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-	{
-		if (!IsBlocked(Vector3.forward))
-		{
-			StartCoroutine(Roll(forwardRotationPoint));
-		}
-
-	}
-	else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-	{
-		if (!IsBlocked(Vector3.back))
-		{
-			StartCoroutine(Roll(backRotationPoint));
-		}
-	}
-	else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-	{
-		if (!IsBlocked(Vector3.left))
-		{
-			StartCoroutine(Roll(leftRotationPoint));
-		}
-	}
-	else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-	{
-		if (!IsBlocked(Vector3.right))
-		{
-			StartCoroutine(Roll(rightRotationPoint));
-		}
-	}
-	*/
 }
 
 void PlayerController::UpdatePhysics()
@@ -111,26 +74,26 @@ void PlayerController::StartRolling(Vec3 rotationPoint)
 	bIsRolling = true;
 	rotationAngle = 0.0f;
 	rotationOrigin = entity->GetPosition(true) + rotationPoint;
-	Print(rotationOrigin);
-	rollingDirection = Vec3(rotationPoint.x != 0 ? Math::Abs(rotationPoint.x) / rotationPoint.x : 0, rotationPoint.y != 0 ? Math::Abs(rotationPoint.y) / rotationPoint.y : 0, rotationPoint.z != 0 ? Math::Abs(rotationPoint.z) / rotationPoint.z : 0);
+	rollingDirection = Vec3(rotationPoint.x != 0 ? Math::Abs(rotationPoint.x) / rotationPoint.x : 0, 0, rotationPoint.z != 0 ? Math::Abs(rotationPoint.z) / rotationPoint.z : 0);
 }
 
 void PlayerController::Roll()
 {
+	// Get change in angle
 	float a = rotationSpeed * (Time::GetSpeed() / 30.0f);
 	rotationAngle += a;
+	rotationAngle = rotationAngle > 90.0f ? 90.0f : rotationAngle;
+	// Calculate angle between centre of entity and rotationOrigin
 	float offsetAngle = 45.0f + rotationAngle;
+	// Calculate spacial offset between centre of entity and rotationOrigin
 	Vec3 offset = Vec3(distanceFromOrigin * Math::Cos(offsetAngle) * -rollingDirection.x, distanceFromOrigin * Math::Sin(offsetAngle), distanceFromOrigin * Math::Cos(offsetAngle) * -rollingDirection.z);
 	entity->SetPosition(rotationOrigin + offset, true);
 	Vec3 rotationToApply = Vec3(rollingDirection.z * a, 0, rollingDirection.x * -a);
 	entity->SetRotation(entity->GetRotation(true) + rotationToApply, true);
 	
-	if (rotationAngle > 90.0f)
+	if (rotationAngle >= 90.0f)
 	{
-		// TODO refactor to avoid repetition of code (use ternary operator above?)
-		offsetAngle = 45.0f + 90.0f;
-		offset = Vec3(distanceFromOrigin * Math::Cos(offsetAngle) * -rollingDirection.x, distanceFromOrigin * Math::Sin(offsetAngle), distanceFromOrigin * Math::Cos(offsetAngle) * -rollingDirection.z);
-		entity->SetPosition(rotationOrigin + offset, true);
+		// Finish rolling by zeroing out rotation
 		entity->SetRotation(Vec3(0,0,0), true);
 		bIsRolling = false;
 	}

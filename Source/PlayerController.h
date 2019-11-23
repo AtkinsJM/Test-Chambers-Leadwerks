@@ -33,11 +33,8 @@ class PlayerController : public Actor
 
 		float rotationAngle;
 		Vec3 rotationOrigin;
-
-		Vec3 relativePos;
-
+		
 		Vec3 rollingDirection;
-
-
+		
 		float distanceFromOrigin;
 };
