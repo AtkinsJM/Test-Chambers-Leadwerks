@@ -37,4 +37,7 @@ class PlayerController : public Actor
 		Vec3 relativePos;
 
 		Vec3 rollingDirection;
+
+
+		float distanceFromOrigin;
 };
