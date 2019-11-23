@@ -122,16 +122,16 @@ void PlayerController::Roll()
 	float offsetAngle = 45.0f + rotationAngle;
 	Vec3 offset = Vec3(distanceFromOrigin * Math::Cos(offsetAngle) * -rollingDirection.x, distanceFromOrigin * Math::Sin(offsetAngle), distanceFromOrigin * Math::Cos(offsetAngle) * -rollingDirection.z);
 	entity->SetPosition(rotationOrigin + offset, true);
-	entity->SetRotation(entity->GetRotation(true) + Vec3(rollingDirection.z * a, 0, rollingDirection.x * -a), true);
+	Vec3 rotationToApply = Vec3(rollingDirection.z * a, 0, rollingDirection.x * -a);
+	entity->SetRotation(entity->GetRotation(true) + rotationToApply, true);
 	
 	if (rotationAngle > 90.0f)
 	{
 		// TODO refactor to avoid repetition of code (use ternary operator above?)
-		a = 90.0f - rotationAngle;
 		offsetAngle = 45.0f + 90.0f;
 		offset = Vec3(distanceFromOrigin * Math::Cos(offsetAngle) * -rollingDirection.x, distanceFromOrigin * Math::Sin(offsetAngle), distanceFromOrigin * Math::Cos(offsetAngle) * -rollingDirection.z);
 		entity->SetPosition(rotationOrigin + offset, true);
-		entity->SetRotation(entity->GetRotation(true) + Vec3(rollingDirection.z * a, 0, rollingDirection.x * -a), true);
+		entity->SetRotation(Vec3(0,0,0), true);
 		bIsRolling = false;
 	}
 }
