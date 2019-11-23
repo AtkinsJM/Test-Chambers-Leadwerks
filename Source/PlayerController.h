@@ -35,4 +35,6 @@ class PlayerController : public Actor
 		Vec3 rotationOrigin;
 
 		Vec3 relativePos;
+
+		Vec3 rollingDirection;
 };
