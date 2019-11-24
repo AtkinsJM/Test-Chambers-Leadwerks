@@ -2,6 +2,8 @@
 
 using namespace Leadwerks;
 
+class Teleport;
+
 class PlayerController : public Actor
 {
 	public:
@@ -11,7 +13,7 @@ class PlayerController : public Actor
 		//virtual void Detach();
 		virtual void UpdateWorld();
 		//virtual void UpdateMatrix();
-		virtual void UpdatePhysics();
+		//virtual void UpdatePhysics();
 		//virtual void Wake();
 		//virtual void Sleep();
 		virtual void Collision(Entity* otherEntity, const Vec3& position, const Vec3& normal, float speed);
@@ -21,6 +23,8 @@ class PlayerController : public Actor
 		//virtual void ReceiveSignal(const std::string& inputname, Entity* sender);
 		void StartRolling(Vec3 rotationPoint);
 		void Roll();
+
+		FORCEINLINE void ToggleIsTeleporting() { bIsTeleporting = !bIsTeleporting; }
 
 	private:
 		Vec3 forwardRotationPoint, backRotationPoint, leftRotationPoint, rightRotationPoint;
@@ -37,4 +41,5 @@ class PlayerController : public Actor
 		Vec3 rollingDirection;
 		
 		float distanceFromOrigin;
+		bool bIsTeleporting;
 };

@@ -1,4 +1,5 @@
 #include "PlayerController.h"
+#include "Teleport.h"
 
 PlayerController::PlayerController()
 {
@@ -7,6 +8,8 @@ PlayerController::PlayerController()
 	window = Window::GetCurrent();
 	bIsRolling = false;
 	distanceFromOrigin = sqrt((width / 2) * (width / 2) * 2);
+
+	bIsTeleporting = false;
 }
 
 PlayerController::~PlayerController()
@@ -47,11 +50,12 @@ void PlayerController::UpdateWorld()
 		}
 		return;
 	}
+	else if (bIsTeleporting) { return; }
+
 	if (window->KeyDown(Key::W) || window->KeyDown(Key::Up))
 	{
 		// TODO: raycast check to see if blocked
 		StartRolling(forwardRotationPoint);
-
 	}
 	else if (window->KeyDown(Key::S) || window->KeyDown(Key::Down))
 	{
@@ -68,10 +72,6 @@ void PlayerController::UpdateWorld()
 		// TODO: raycast check to see if blocked
 		StartRolling(rightRotationPoint);
 	}
-}
-
-void PlayerController::UpdatePhysics()
-{
 }
 
 void PlayerController::Collision(Entity* otherEntity, const Vec3& position, const Vec3& normal, float speed)
