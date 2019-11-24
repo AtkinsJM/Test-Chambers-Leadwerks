@@ -1,6 +1,7 @@
 #include "App.h"
 #include "PlayerController.h"
 #include "FollowCamera.h"
+#include "Teleport.h"
 
 using namespace Leadwerks;
 
@@ -35,15 +36,17 @@ bool App::Start()
 
 	Actor* followCamera = new FollowCamera(player);
 	camera->SetActor(followCamera);
+	
+	Collision::SetResponse(Collision::Trigger, Collision::Prop, Collision::Trigger);
 
-	while (true)
+	for (int i = 0; i < world->CountEntities(); i++)
 	{
-		if (window->Closed() || window->KeyHit(Key::Escape)) { return false; }
-
-		Time::Update();
-		world->Update();
-		world->Render();
-		context->Sync(bUseVSync);
+		Entity* e = world->GetEntity(i);
+		if (e->GetKeyValue("tag") == "Teleport")
+		{
+			Actor* teleport = new Teleport();
+			e->SetActor(teleport);
+		}
 	}
 
 	return true;
