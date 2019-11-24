@@ -44,6 +44,7 @@ void Teleport::UpdateWorld()
 			{
 				player->ToggleIsTeleporting();
 			}
+			target = nullptr;
 			bIsTeleporting = false;
 		}
 	}
