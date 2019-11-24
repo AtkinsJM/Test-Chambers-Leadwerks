@@ -29,4 +29,6 @@ class FollowCamera : public Actor
 		Vec3 cameraOffset;
 		Vec3 cameraRot;
 		float followHeight;
+
+		float movementSpeed;
 };
