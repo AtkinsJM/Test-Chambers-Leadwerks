@@ -20,11 +20,16 @@ void PlayerController::Attach()
 	Vec3 playerPos = playerStart ? playerStart->GetPosition() : Vec3(0, 2, 0);
 	Vec3 playerRot = playerStart ? playerStart->GetRotation() : Vec3(0, 0, 0);
 
+	// Set up physics on player
 	entity->SetPhysicsMode(Entity::RigidBodyPhysics);
+	entity->SetCollisionType(Collision::Character);
+	entity->SetShape(Shape::Box());
 	entity->SetGravityMode(false);
+	entity->SetMass(1);
+
 	entity->SetPosition(playerPos);
 	entity->SetRotation(playerRot);
-	entity->SetMass(1);
+
 
 	rightRotationPoint = Vec3(0, -width / 2, -width/2);
 	leftRotationPoint = Vec3(0, -width / 2, width/2);
@@ -66,6 +71,10 @@ void PlayerController::UpdateWorld()
 }
 
 void PlayerController::UpdatePhysics()
+{
+}
+
+void PlayerController::Collision(Entity* otherEntity, const Vec3& position, const Vec3& normal, float speed)
 {
 }
 
