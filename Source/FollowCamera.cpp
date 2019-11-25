@@ -3,10 +3,12 @@
 FollowCamera::FollowCamera(Entity* followEntity) : followTarget(followEntity), camera(nullptr)
 {
 
-	cameraOffset = Vec3(-10, 15, -10);
-	cameraRot = Vec3(45, 45, 0);
+	cameraOffset = Vec3(-10, 10, -10);
+	cameraRot = Vec3(35, 45, 0);
 	followHeight = cameraOffset.y;
+	targetHeight = followEntity->GetAABB().size.y;
 	movementSpeed = 5;
+	
 }
 
 FollowCamera::~FollowCamera()
@@ -18,7 +20,7 @@ void FollowCamera::Attach()
 	camera = static_cast<Camera*>(entity);
 	if (!camera) { return; }
 	camera->SetRotation(cameraRot);
-	camera->SetPosition(cameraOffset);
+	camera->SetPosition(followTarget->GetPosition(true) + cameraOffset);
 	camera->SetProjectionMode(Camera::Orthographic);
 	camera->SetZoom(50);
 	camera->SetGravityMode(false);
@@ -29,7 +31,7 @@ void FollowCamera::UpdateWorld()
 {
 	if (!followTarget || !camera) { return; }
 	Vec3 desiredPosition = followTarget->GetPosition(true) + cameraOffset;
-	desiredPosition.y = followHeight;
+	desiredPosition.y = followHeight + targetHeight/2.0f;
 	
 	// TODO allow for varing followHeight based on followTarget's elevation.
 	//camera->SetPosition(desiredPosition.x, followHeight, desiredPosition.z);

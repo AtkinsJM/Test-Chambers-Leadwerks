@@ -30,5 +30,7 @@ class FollowCamera : public Actor
 		Vec3 cameraRot;
 		float followHeight;
 
+		float targetHeight;
+
 		float movementSpeed;
 };
