@@ -33,6 +33,7 @@ void PlayerController::Attach()
 	entity->SetShape(Shape::Box());
 	entity->SetGravityMode(false);
 	entity->SetMass(1);
+	entity->SetShadowMode(Light::Dynamic);
 
 	// TODO: make a variable
 	entity->SetColor(0.40f, 0.40f, 0.40f);
