@@ -1,6 +1,6 @@
 function Script:Start()
-	self.entity.shadowstagerange[0] = 100
-		self.entity.shadowstagerange[1] = 110
-		self.entity.shadowstagerange[2] = 125
-		self.entity.shadowstagerange[3] = 175
+	self.entity.shadowstagerange[0] = 35
+	self.entity.shadowstagerange[1] = 75
+	self.entity.shadowstagerange[2] = 100
+	self.entity.shadowstagerange[3] = 200
 end

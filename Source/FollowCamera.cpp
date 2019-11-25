@@ -3,7 +3,7 @@
 FollowCamera::FollowCamera(Entity* followEntity) : followTarget(followEntity), camera(nullptr)
 {
 
-	cameraOffset = Vec3(70, 70, -70);
+	cameraOffset = Vec3(50, 50, -50);
 	cameraRot = Vec3(35, -45, 0);
 	followHeight = cameraOffset.y;
 	targetHeight = followEntity->GetAABB().size.y;
@@ -23,7 +23,7 @@ void FollowCamera::Attach()
 	camera->SetPosition(followTarget->GetPosition(true) + cameraOffset);
 	camera->SetProjectionMode(Camera::Orthographic);
 	camera->SetZoom(50);
-	//camera->SetFOV(8);
+	//camera->SetFOV(10);
 	camera->SetGravityMode(false);
 	camera->SetMass(1);
 	camera->SetClearColor(0.15f, 0.15f, 0.15f);
