@@ -30,6 +30,9 @@ void PlayerController::Attach()
 	entity->SetGravityMode(false);
 	entity->SetMass(1);
 
+	// TODO: make a variable
+	entity->SetColor(0.40f, 0.40f, 0.40f);
+
 	entity->SetPosition(playerPos);
 	entity->SetRotation(playerRot);
 
