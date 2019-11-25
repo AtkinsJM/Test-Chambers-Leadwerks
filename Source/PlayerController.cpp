@@ -41,10 +41,10 @@ void PlayerController::Attach()
 	entity->SetRotation(playerRot);
 
 
-	rightRotationPoint = Vec3(0, -width / 2, -width/2);
-	leftRotationPoint = Vec3(0, -width / 2, width/2);
-	backRotationPoint = Vec3(-width/2, -width / 2, 0);
-	forwardRotationPoint = Vec3(width/2, -width / 2, 0);
+	backRotationPoint = Vec3(0, -width / 2, -width/2);
+	forwardRotationPoint = Vec3(0, -width / 2, width/2);
+	leftRotationPoint = Vec3(-width/2, -width / 2, 0);
+	rightRotationPoint = Vec3(width/2, -width / 2, 0);
 }
 
 void PlayerController::UpdateWorld()
@@ -61,32 +61,28 @@ void PlayerController::UpdateWorld()
 
 	if (window->KeyDown(Key::W) || window->KeyDown(Key::Up))
 	{
-		// TODO: raycast check to see if blocked
-		if (!IsBlocked(Vec3(width, 0, 0)))
+		if (!IsBlocked(Vec3(0, 0, width)))
 		{
 			StartRolling(forwardRotationPoint);
 		}	
 	}
 	else if (window->KeyDown(Key::S) || window->KeyDown(Key::Down))
 	{
-		// TODO: raycast check to see if blocked
-		if (!IsBlocked(Vec3(-width, 0, 0)))
+		if (!IsBlocked(Vec3(0, 0, -width)))
 		{
 			StartRolling(backRotationPoint);
 		}
 	}
 	else if (window->KeyDown(Key::A) || window->KeyDown(Key::Left))
 	{
-		// TODO: raycast check to see if blocked
-		if (!IsBlocked(Vec3(0, 0, width)))
+		if (!IsBlocked(Vec3(-width, 0, 0)))
 		{
 			StartRolling(leftRotationPoint);
 		}
 	}
 	else if (window->KeyDown(Key::D) || window->KeyDown(Key::Right))
 	{
-		// TODO: raycast check to see if blocked
-		if (!IsBlocked(Vec3(0, 0, -width)))
+		if (!IsBlocked(Vec3(width, 0, 0)))
 		{
 			StartRolling(rightRotationPoint);
 		}
