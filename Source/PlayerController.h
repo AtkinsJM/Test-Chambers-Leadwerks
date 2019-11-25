@@ -24,6 +24,8 @@ class PlayerController : public Actor
 		void StartRolling(Vec3 rotationPoint);
 		void Roll();
 
+		bool IsBlocked(Vec3 direction);
+
 		FORCEINLINE void ToggleIsTeleporting() { bIsTeleporting = !bIsTeleporting; }
 
 	private:

@@ -10,6 +10,10 @@ PlayerController::PlayerController()
 	distanceFromOrigin = sqrt((width / 2) * (width / 2) * 2);
 
 	bIsTeleporting = false;
+
+	// Set up custom collision type for pick
+	Collision::SetResponse(10, Collision::Scene, Collision::Collide);
+	Collision::SetResponse(10, Collision::Prop, Collision::Collide);
 }
 
 PlayerController::~PlayerController()
@@ -58,22 +62,34 @@ void PlayerController::UpdateWorld()
 	if (window->KeyDown(Key::W) || window->KeyDown(Key::Up))
 	{
 		// TODO: raycast check to see if blocked
-		StartRolling(forwardRotationPoint);
+		if (!IsBlocked(Vec3(width, 0, 0)))
+		{
+			StartRolling(forwardRotationPoint);
+		}	
 	}
 	else if (window->KeyDown(Key::S) || window->KeyDown(Key::Down))
 	{
 		// TODO: raycast check to see if blocked
-		StartRolling(backRotationPoint);
+		if (!IsBlocked(Vec3(-width, 0, 0)))
+		{
+			StartRolling(backRotationPoint);
+		}
 	}
 	else if (window->KeyDown(Key::A) || window->KeyDown(Key::Left))
 	{
 		// TODO: raycast check to see if blocked
-		StartRolling(leftRotationPoint);
+		if (!IsBlocked(Vec3(0, 0, width)))
+		{
+			StartRolling(leftRotationPoint);
+		}
 	}
 	else if (window->KeyDown(Key::D) || window->KeyDown(Key::Right))
 	{
 		// TODO: raycast check to see if blocked
-		StartRolling(rightRotationPoint);
+		if (!IsBlocked(Vec3(0, 0, -width)))
+		{
+			StartRolling(rightRotationPoint);
+		}
 	}
 }
 
@@ -109,4 +125,14 @@ void PlayerController::Roll()
 		entity->SetRotation(Vec3(0,0,0), true);
 		bIsRolling = false;
 	}
+}
+
+bool PlayerController::IsBlocked(Vec3 direction)
+{
+	PickInfo pickInfo;
+	if (World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + direction, pickInfo, 0.0f, false, 10))
+	{
+		return true;
+	}
+	return false;
 }
