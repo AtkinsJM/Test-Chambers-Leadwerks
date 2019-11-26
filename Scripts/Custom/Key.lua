@@ -1,8 +1,17 @@
---[[
+Script.amplitude = 1.0 --float "Amplitude"
+Script.frequency = 1.0 --float "Frequency
+Script.rotationSpeed = 1.0 --float "Rotation speed"
+Script.bFloats = true --bool "Floats"
+Script.bRotates = true --bool "Rotates"
+
 function Script:Start()
-	
+	self.entity:SetKeyValue("tag", "Key")
+	self.entity:SetKeyValue("amplitude", self.amplitude)
+	self.entity:SetKeyValue("frequency", self.frequency)
+	self.entity:SetKeyValue("rotationSpeed", self.rotationSpeed)
+	self.entity:SetKeyValue("bFloats", tostring(self.bFloats))
+	self.entity:SetKeyValue("bRotates", tostring(self.bRotates))
 end
-]]
 
 --[[
 function Script:UpdateWorld()

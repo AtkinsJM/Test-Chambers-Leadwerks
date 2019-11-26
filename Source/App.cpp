@@ -2,6 +2,7 @@
 #include "PlayerController.h"
 #include "FollowCamera.h"
 #include "Teleport.h"
+#include "DoorKey.h"
 
 using namespace Leadwerks;
 
@@ -42,10 +43,16 @@ bool App::Start()
 	for (int i = 0; i < world->CountEntities(); i++)
 	{
 		Entity* e = world->GetEntity(i);
-		if (e->GetKeyValue("tag") == "Teleport")
+		string tag = e->GetKeyValue("tag", "");
+		if (tag == "Teleport")
 		{
 			Actor* teleport = new Teleport();
 			e->SetActor(teleport);
+		}
+		else if (tag == "Key")
+		{
+			Actor* doorKey = new DoorKey();
+			e->SetActor(doorKey);
 		}
 	}
 
