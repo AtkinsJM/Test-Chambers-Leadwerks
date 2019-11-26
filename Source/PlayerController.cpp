@@ -152,7 +152,7 @@ void PlayerController::PickUpDoorKey(DoorKey* doorKey)
 	doorKey->Destroy();
 }
 
-bool PlayerController::HasDoorKey(DoorKeyType doorKeyType)
+bool PlayerController::HasDoorKey(int doorKeyType)
 {
 	return (doorKeySequence & static_cast<int>(doorKeyType)) == static_cast<int>(doorKeyType);
 }

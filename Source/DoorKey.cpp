@@ -26,6 +26,7 @@ void DoorKey::Attach()
 	{
 		startPosition = parent->GetPosition(true);
 	}
+	model = entity->GetChild(0);
 
 	amplitude = String::Float(entity->GetKeyValue("amplitude"));
 	frequency = String::Float(entity->GetKeyValue("frequency"));
@@ -36,28 +37,26 @@ void DoorKey::Attach()
 
 	doorKeyType = static_cast<DoorKeyType>(String::Int(entity->GetKeyValue("doorKeyType")));
 
-	Print(doorKeyType);
-
 	switch (doorKeyType)
 	{
 		case DoorKeyType::RED_KEY:
-			entity->SetColor(RED_COLOUR, COLOR_DIFFUSE, true);
+			model->SetColor(RED_COLOUR);
 			break;
 		case DoorKeyType::YELLOW_KEY:
-			entity->SetColor(YELLOW_COLOUR, COLOR_DIFFUSE, true);
+			model->SetColor(YELLOW_COLOUR);
 			break;
 		case DoorKeyType::GREEN_KEY:
-			entity->SetColor(GREEN_COLOUR, COLOR_DIFFUSE, true);
+			model->SetColor(GREEN_COLOUR);
 			break;
 		case DoorKeyType::ORANGE_KEY:
-			entity->SetColor(ORANGE_COLOUR, COLOR_DIFFUSE, true);
+			model->SetColor(ORANGE_COLOUR);
 			break;
 		case DoorKeyType::PURPLE_KEY:
-			entity->SetColor(PURPLE_COLOUR, COLOR_DIFFUSE, true);
+			model->SetColor(PURPLE_COLOUR);
 			break;
 		case DoorKeyType::BLUE_KEY:
 		default:
-			entity->SetColor(BLUE_COLOUR, COLOR_DIFFUSE, true);
+			model->SetColor(BLUE_COLOUR);
 			break;
 	}
 

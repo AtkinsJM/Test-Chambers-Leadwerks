@@ -28,7 +28,7 @@ class PlayerController : public Actor
 
 		void PickUpDoorKey(DoorKey* doorKey);
 
-		bool HasDoorKey(DoorKeyType doorKeyType);
+		bool HasDoorKey(int doorKeyType);
 
 		FORCEINLINE void ToggleIsTeleporting() { bIsTeleporting = !bIsTeleporting; }
 
