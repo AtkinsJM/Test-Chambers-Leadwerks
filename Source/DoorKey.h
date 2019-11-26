@@ -3,6 +3,16 @@
 
 using namespace Leadwerks;
 
+enum class DoorKeyType
+{
+	BLUE_KEY = 1,
+	RED_KEY = 2,
+	YELLOW_KEY = 4,
+	GREEN_KEY = 8,
+	ORANGE_KEY = 16,
+	PURPLE_KEY = 32
+};
+
 class DoorKey : public Actor
 {
 	public:
@@ -21,6 +31,7 @@ class DoorKey : public Actor
 		//virtual void DrawEach(Camera* camera);
 		//virtual void ReceiveSignal(const std::string& inputname, Entity* sender);
 
+		FORCEINLINE DoorKeyType GetDoorKeyType() { return doorKeyType; }
 
 	private:
 		Vec3 startPosition;
@@ -33,4 +44,7 @@ class DoorKey : public Actor
 		bool bRotates;
 
 		float recordedTime;
+
+		DoorKeyType doorKeyType;
+
 };

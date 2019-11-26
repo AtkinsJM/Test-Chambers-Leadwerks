@@ -3,6 +3,8 @@ Script.frequency = 1.0 --float "Frequency
 Script.rotationSpeed = 1.0 --float "Rotation speed"
 Script.bFloats = true --bool "Floats"
 Script.bRotates = true --bool "Rotates"
+Script.doorKeyType = 0 --choice "Door key type" "Blue, Red, Yellow, Green, Orange, Purple"
+
 
 function Script:Start()
 	self.entity:SetKeyValue("tag", "Key")
@@ -11,6 +13,7 @@ function Script:Start()
 	self.entity:SetKeyValue("rotationSpeed", self.rotationSpeed)
 	self.entity:SetKeyValue("bFloats", tostring(self.bFloats))
 	self.entity:SetKeyValue("bRotates", tostring(self.bRotates))
+	self.entity:SetKeyValue("doorKeyType", self.doorKeyType + 1)	--Need to add 1 to start at 1
 end
 
 --[[

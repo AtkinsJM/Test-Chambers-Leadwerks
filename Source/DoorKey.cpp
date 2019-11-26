@@ -8,6 +8,7 @@ DoorKey::DoorKey()
 
 	bFloats = true;
 	bRotates = true;
+	doorKeyType = DoorKeyType::BLUE_KEY;
 }
 
 DoorKey::~DoorKey()
@@ -24,6 +25,8 @@ void DoorKey::Attach()
 	
 	bFloats = entity->GetKeyValue("bFloats") == "true" ? true : false;
 	bRotates = entity->GetKeyValue("bRotates") == "true" ? true : false;
+
+	doorKeyType = static_cast<DoorKeyType>(String::Int(entity->GetKeyValue("doorKeyType")));
 
 	recordedTime = Time::GetCurrent();
 }
