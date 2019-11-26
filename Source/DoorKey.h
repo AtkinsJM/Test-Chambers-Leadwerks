@@ -3,7 +3,7 @@
 
 using namespace Leadwerks;
 
-enum class DoorKeyType
+enum DoorKeyType
 {
 	BLUE_KEY = 1,
 	RED_KEY = 2,
@@ -47,4 +47,12 @@ class DoorKey : public Actor
 
 		DoorKeyType doorKeyType;
 
+		Entity* parent;
+
+		const Vec4 BLUE_COLOUR = Vec4(0, 64, 128, 255);
+		const Vec4 RED_COLOUR = Vec4(206, 0, 0, 255);
+		const Vec4 YELLOW_COLOUR = Vec4(232, 232, 0, 255);
+		const Vec4 GREEN_COLOUR = Vec4(0, 128, 0, 255);
+		const Vec4 ORANGE_COLOUR = Vec4(255, 128, 64, 255);
+		const Vec4 PURPLE_COLOUR = Vec4(128, 0, 255, 255);
 };
