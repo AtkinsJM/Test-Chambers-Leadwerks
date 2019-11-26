@@ -20,6 +20,7 @@ DoorKey::~DoorKey()
 void DoorKey::Attach()
 {
 	entity->SetCollisionType(Collision::Trigger);
+	entity->SetSweptCollisionMode(true);
 	
 	parent = entity->GetParent();
 	if (parent)
