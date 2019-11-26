@@ -100,8 +100,7 @@ void PlayerController::Collision(Entity* otherEntity, const Vec3& position, cons
 			DoorKey* doorKey = static_cast<DoorKey*>(otherEntity->GetActor());
 			if (doorKey)
 			{
-				doorKeySequence |= static_cast<int>(doorKey->GetDoorKeyType());
-				doorKey->Destroy();
+				PickUpDoorKey(doorKey);
 			}
 		}
 	}
@@ -147,6 +146,13 @@ bool PlayerController::IsBlocked(Vec3 direction)
 	return false;
 }
 
-void PlayerController::PickUpDoorKey(DoorKey doorKey)
+void PlayerController::PickUpDoorKey(DoorKey* doorKey)
 {
+	doorKeySequence |= static_cast<int>(doorKey->GetDoorKeyType());
+	doorKey->Destroy();
+}
+
+bool PlayerController::HasDoorKey(DoorKeyType doorKeyType)
+{
+	return (doorKeySequence & static_cast<int>(doorKeyType)) == static_cast<int>(doorKeyType);
 }

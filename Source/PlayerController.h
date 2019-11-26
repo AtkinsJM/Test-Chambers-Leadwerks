@@ -26,7 +26,9 @@ class PlayerController : public Actor
 
 		bool IsBlocked(Vec3 direction);
 
-		void PickUpDoorKey(DoorKey doorKey);
+		void PickUpDoorKey(DoorKey* doorKey);
+
+		bool HasDoorKey(DoorKeyType doorKeyType);
 
 		FORCEINLINE void ToggleIsTeleporting() { bIsTeleporting = !bIsTeleporting; }
 
