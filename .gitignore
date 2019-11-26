@@ -7,6 +7,10 @@
 Scripts/*
 !Scripts/Custom/
 
+!Models/
+Models/*
+!Models/Custom/
+
 
 
 
