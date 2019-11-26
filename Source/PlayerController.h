@@ -2,7 +2,7 @@
 
 using namespace Leadwerks;
 
-class Teleport;
+class DoorKey;
 
 class PlayerController : public Actor
 {
@@ -26,6 +26,8 @@ class PlayerController : public Actor
 
 		bool IsBlocked(Vec3 direction);
 
+		void PickUpDoorKey(DoorKey doorKey);
+
 		FORCEINLINE void ToggleIsTeleporting() { bIsTeleporting = !bIsTeleporting; }
 
 	private:
@@ -44,4 +46,6 @@ class PlayerController : public Actor
 		
 		float distanceFromOrigin;
 		bool bIsTeleporting;
+
+		int doorKeySequence = 0;
 };

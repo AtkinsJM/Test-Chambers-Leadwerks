@@ -81,3 +81,9 @@ void DoorKey::UpdateWorld()
 		parent->SetRotation(parent->GetRotation(true) + Vec3(0, rotationSpeed * deltaTime, 0), true);
 	}
 }
+
+void DoorKey::Destroy()
+{
+	entity->SetActor(nullptr);
+	parent->Release();
+}

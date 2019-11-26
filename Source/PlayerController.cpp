@@ -1,5 +1,6 @@
 #include "PlayerController.h"
 #include "Teleport.h"
+#include "DoorKey.h"
 
 PlayerController::PlayerController()
 {
@@ -92,6 +93,18 @@ void PlayerController::UpdateWorld()
 
 void PlayerController::Collision(Entity* otherEntity, const Vec3& position, const Vec3& normal, float speed)
 {
+	if (otherEntity)
+	{
+		if (otherEntity->GetKeyValue("tag") == "Key")
+		{
+			DoorKey* doorKey = static_cast<DoorKey*>(otherEntity->GetActor());
+			if (doorKey)
+			{
+				doorKeySequence |= static_cast<int>(doorKey->GetDoorKeyType());
+				doorKey->Destroy();
+			}
+		}
+	}
 }
 
 void PlayerController::StartRolling(Vec3 rotationPoint)
@@ -132,4 +145,8 @@ bool PlayerController::IsBlocked(Vec3 direction)
 		return true;
 	}
 	return false;
+}
+
+void PlayerController::PickUpDoorKey(DoorKey doorKey)
+{
 }

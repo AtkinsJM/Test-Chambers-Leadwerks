@@ -31,6 +31,8 @@ class DoorKey : public Actor
 		//virtual void DrawEach(Camera* camera);
 		//virtual void ReceiveSignal(const std::string& inputname, Entity* sender);
 
+		void Destroy();
+
 		FORCEINLINE DoorKeyType GetDoorKeyType() { return doorKeyType; }
 
 	private:
