@@ -4,6 +4,7 @@
 #include "Teleport.h"
 #include "DoorKey.h"
 #include "Door.h"
+#include "SoundManager.h"
 
 using namespace Leadwerks;
 
@@ -27,6 +28,8 @@ bool App::Start()
 	camera = Camera::Create();
 
 	Map::Load("Maps/game.map");
+
+	SoundManager::LoadSounds();
 
 	window->HideMouse();
 

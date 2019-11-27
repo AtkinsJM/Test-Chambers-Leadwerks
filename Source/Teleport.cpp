@@ -1,5 +1,6 @@
 #include "Teleport.h"
 #include "PlayerController.h"
+#include "SoundManager.h"
 
 Teleport::Teleport()
 {
@@ -43,6 +44,7 @@ void Teleport::UpdateWorld()
 			if (player)
 			{
 				player->ToggleIsTeleporting();
+				SoundManager::Play("teleport");
 			}
 			target = nullptr;
 			bIsTeleporting = false;

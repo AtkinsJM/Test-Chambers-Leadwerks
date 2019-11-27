@@ -2,6 +2,7 @@
 #include "Teleport.h"
 #include "DoorKey.h"
 #include "Door.h"
+#include "SoundManager.h"
 
 PlayerController::PlayerController()
 {
@@ -99,6 +100,11 @@ void PlayerController::UpdateWorld()
 			if (HasDoorKey(door->GetRequiredKeyType()))
 			{
 				door->Unlock();
+				SoundManager::Play("doorUnlocked");
+			}
+			else
+			{
+				SoundManager::Play("doorLocked");
 			}
 		}
 	}
@@ -145,6 +151,7 @@ void PlayerController::Roll()
 	{
 		// Finish rolling by zeroing out rotation
 		entity->SetRotation(Vec3(0,0,0), true);
+		SoundManager::Play("roll");
 		bIsRolling = false;
 	}
 }
@@ -163,6 +170,7 @@ void PlayerController::PickUpDoorKey(DoorKey* doorKey)
 {
 	doorKeySequence |= static_cast<int>(doorKey->GetDoorKeyType());
 	doorKey->Destroy();
+	SoundManager::Play("pickup");
 }
 
 bool PlayerController::HasDoorKey(DoorKeyType doorKeyType)
