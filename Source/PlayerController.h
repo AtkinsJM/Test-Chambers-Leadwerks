@@ -4,6 +4,7 @@
 using namespace Leadwerks;
 
 class DoorKey;
+class Door;
 
 class PlayerController : public Actor
 {
@@ -30,6 +31,8 @@ class PlayerController : public Actor
 		void PickUpDoorKey(DoorKey* doorKey);
 
 		bool HasDoorKey(DoorKeyType doorKeyType);
+
+		Door* IsDoorPresent();
 
 		FORCEINLINE void ToggleIsTeleporting() { bIsTeleporting = !bIsTeleporting; }
 

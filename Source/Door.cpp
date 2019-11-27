@@ -42,6 +42,6 @@ void Door::Attach()
 
 void Door::Unlock()
 {
-	entity->SetActor(nullptr);
+	// TODO: find way of destroying actor, too (SetActor(nullptr)) - do via player?
 	entity->Release();
 }

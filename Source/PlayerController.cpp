@@ -1,6 +1,7 @@
 #include "PlayerController.h"
 #include "Teleport.h"
 #include "DoorKey.h"
+#include "Door.h"
 
 PlayerController::PlayerController()
 {
@@ -89,6 +90,18 @@ void PlayerController::UpdateWorld()
 			StartRolling(rightRotationPoint);
 		}
 	}
+
+	if (window->KeyHit(Key::E))
+	{
+		Door* door = IsDoorPresent();
+		if (door)
+		{
+			if (HasDoorKey(door->GetRequiredKeyType()))
+			{
+				door->Unlock();
+			}
+		}
+	}
 }
 
 void PlayerController::Collision(Entity* otherEntity, const Vec3& position, const Vec3& normal, float speed)
@@ -155,4 +168,25 @@ void PlayerController::PickUpDoorKey(DoorKey* doorKey)
 bool PlayerController::HasDoorKey(DoorKeyType doorKeyType)
 {
 	return (doorKeySequence & static_cast<int>(doorKeyType)) == static_cast<int>(doorKeyType);
+}
+
+Door* PlayerController::IsDoorPresent()
+{
+	// Raycast in all four direction to see if player is adjacent to a door. If there is a door, return it
+	PickInfo pickInfo;
+	if (World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(0, 0, width), pickInfo) ||
+		World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(0, 0, -width), pickInfo) ||
+		World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(width, 0, 0), pickInfo) ||
+		World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(-width, 0, 0), pickInfo))
+	{
+		if (pickInfo.entity->GetKeyValue("tag") == "Door")
+		{
+			Door* door = static_cast<Door*>(pickInfo.entity->GetActor());
+			if (door)
+			{
+				return door;
+			}
+		}
+	}
+	return nullptr;
 }
