@@ -7,7 +7,7 @@
 PlayerController::PlayerController()
 {
 	width = 1.28f;
-	rotationSpeed = 90.0f;
+	rotationSpeed = 135.0f;
 	window = Window::GetCurrent();
 	bIsRolling = false;
 	distanceFromOrigin = sqrt((width / 2) * (width / 2) * 2);
