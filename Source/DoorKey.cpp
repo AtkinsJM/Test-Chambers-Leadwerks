@@ -29,6 +29,10 @@ void DoorKey::Attach()
 		startPosition = parent->GetPosition(true);
 	}
 	model = entity->GetChild(0);
+	if (model)
+	{
+		model->SetCollisionType(Collision::None);
+	}
 
 	amplitude = String::Float(entity->GetKeyValue("amplitude"));
 	frequency = String::Float(entity->GetKeyValue("frequency"));
