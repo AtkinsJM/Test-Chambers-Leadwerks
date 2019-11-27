@@ -1,4 +1,5 @@
 #include "Leadwerks.h"
+#include "DoorKeyType.h"
 
 using namespace Leadwerks;
 
@@ -28,7 +29,7 @@ class PlayerController : public Actor
 
 		void PickUpDoorKey(DoorKey* doorKey);
 
-		bool HasDoorKey(int doorKeyType);
+		bool HasDoorKey(DoorKeyType doorKeyType);
 
 		FORCEINLINE void ToggleIsTeleporting() { bIsTeleporting = !bIsTeleporting; }
 
