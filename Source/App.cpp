@@ -3,6 +3,7 @@
 #include "FollowCamera.h"
 #include "Teleport.h"
 #include "DoorKey.h"
+#include "Door.h"
 
 using namespace Leadwerks;
 
@@ -53,6 +54,11 @@ bool App::Start()
 		{
 			Actor* doorKey = new DoorKey();
 			e->SetActor(doorKey);
+		}
+		else if (tag == "Door")
+		{
+			Actor* door = new Door();
+			e->SetActor(door);
 		}
 	}
 

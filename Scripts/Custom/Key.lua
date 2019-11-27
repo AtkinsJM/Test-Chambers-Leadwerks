@@ -13,7 +13,7 @@ function Script:Start()
 	self.entity:SetKeyValue("rotationSpeed", self.rotationSpeed)
 	self.entity:SetKeyValue("bFloats", tostring(self.bFloats))
 	self.entity:SetKeyValue("bRotates", tostring(self.bRotates))
-	self.entity:SetKeyValue("doorKeyType", math.pow(2, self.doorKeyType)) --Need to add 1 to start at 1
+	self.entity:SetKeyValue("doorKeyType", math.pow(2, self.doorKeyType))
 end
 
 --[[
