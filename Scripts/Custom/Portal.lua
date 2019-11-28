@@ -1,5 +1,8 @@
+Script.destinationKey = 0 --int "Destination key"
+
 function Script:Start()
-	self.entity:SetKeyValue("tag", "WinPortal")
+	self.entity:SetKeyValue("tag", "Portal")
+	self.entity:SetKeyValue("destinationKey", self.destinationKey)
 end
 
 --[[

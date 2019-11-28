@@ -3,11 +3,11 @@
 
 using namespace Leadwerks;
 
-class WinPortal : public Actor
+class Portal : public Actor
 {
 public:
-	WinPortal();
-	~WinPortal();
+	Portal();
+	~Portal();
 	virtual void Attach();
 	//virtual void Detach();
 	virtual void UpdateWorld();
@@ -21,7 +21,7 @@ public:
 	//virtual void DrawEach(Camera* camera);
 	//virtual void ReceiveSignal(const std::string& inputname, Entity* sender);
 
-	void BeginWin();
+	void BeginTeleport();
 
 private:
 	// TODO: change vairable name
@@ -29,4 +29,6 @@ private:
 	
 	float delay;
 	float startTeleportTime;
+
+	int destinationKey;
 };

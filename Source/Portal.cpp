@@ -1,23 +1,26 @@
-#include "WinPortal.h"
+#include "Portal.h"
 #include "PlayerController.h"
 #include "SoundManager.h"
+#include "GameManager.h"
 
-WinPortal::WinPortal()
+Portal::Portal()
 {
 	bIsTeleporting = false;
 	delay = 1.0f;
+	destinationKey = 0;
 }
 
-WinPortal::~WinPortal()
+Portal::~Portal()
 {
 }
 
-void WinPortal::Attach()
+void Portal::Attach()
 {
 	entity->SetCollisionType(Collision::Trigger);
+	destinationKey = String::Int(entity->GetKeyValue("destinationKey"));
 }
 
-void WinPortal::UpdateWorld()
+void Portal::UpdateWorld()
 {
 	if (bIsTeleporting)
 	{
@@ -26,11 +29,22 @@ void WinPortal::UpdateWorld()
 		{
 			SoundManager::Play("win");
 			bIsTeleporting = false;
+			if (destinationKey == -1)
+			{
+				Print("Quitting...");
+				GameManager::QuitGame();
+			}
+			else
+			{
+				Print("Loading level...");
+				GameManager::LoadLevel(destinationKey);
+			}
+			
 		}
 	}
 }
 
-void WinPortal::Collision(Entity* otherEntity, const Vec3& position, const Vec3& normal, float speed)
+void Portal::Collision(Entity* otherEntity, const Vec3& position, const Vec3& normal, float speed)
 {
 	if (!bIsTeleporting)
 	{
@@ -38,12 +52,12 @@ void WinPortal::Collision(Entity* otherEntity, const Vec3& position, const Vec3&
 		if (player)
 		{
 			player->ToggleIsTeleporting();
-			BeginWin();
+			BeginTeleport();
 		}
 	}
 }
 
-void WinPortal::BeginWin()
+void Portal::BeginTeleport()
 {
 	bIsTeleporting = true;
 	startTeleportTime = Time::GetCurrent();
