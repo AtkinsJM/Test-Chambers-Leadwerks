@@ -5,7 +5,7 @@
 #include "DoorKey.h"
 #include "Door.h"
 #include "SoundManager.h"
-#include "WinPortal.h"
+#include "Portal.h"
 #include "GameManager.h"
 
 using namespace Leadwerks;
@@ -28,24 +28,41 @@ bool App::Start()
 	world = World::Create();
 	camera = Camera::Create();
 
+	GameManager::SetApp(this);
+	GameManager::SetIsGameActive(true);
 	GameManager::LoadMaps();
-	GameManager::LoadLevel(0);
-	//Map::Load("Maps/game.map");
-
 	SoundManager::LoadSounds();
 
 	window->HideMouse();
 
+	Collision::SetResponse(Collision::Trigger, Collision::Prop, Collision::Trigger);
+
+	GameManager::LoadLevel(0);
+	
+	return true;
+}
+
+bool App::Loop()
+{
+	if (!world) { return true; }
+	if (window->Closed() || window->KeyHit(Key::Escape) || GameManager::GetIsGameActive() == false) { return false; }
+
+	Time::Update();
+	world->Update();
+	world->Render();
+	context->Sync(bUseVSync);
+	return true;
+}
+
+void App::SetupWorld()
+{
 	Model* player = Model::Box(1.28);
 	Actor* playerController = new PlayerController;
 	player->SetKeyValue("name", "Player");
 	player->SetActor(playerController);
-	//playerController->Release();
 
 	Actor* followCamera = new FollowCamera(player);
 	camera->SetActor(followCamera);
-	
-	Collision::SetResponse(Collision::Trigger, Collision::Prop, Collision::Trigger);
 
 	for (int i = 0; i < world->CountEntities(); i++)
 	{
@@ -66,23 +83,10 @@ bool App::Start()
 			Actor* door = new Door();
 			e->SetActor(door);
 		}
-		else if (tag == "WinPortal")
+		else if (tag == "Portal")
 		{
-			Actor* winPortal = new WinPortal();
-			e->SetActor(winPortal);
+			Actor* portal = new Portal();
+			e->SetActor(portal);
 		}
 	}
-
-	return true;
-}
-
-bool App::Loop()
-{
-	if (window->Closed() || window->KeyHit(Key::Escape)) { return false; }
-
-	Time::Update();
-	world->Update();
-	world->Render();
-	context->Sync(bUseVSync);
-	return true;
 }

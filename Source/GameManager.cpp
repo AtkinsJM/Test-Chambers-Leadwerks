@@ -1,6 +1,10 @@
 #include "GameManager.h"
+#include "App.h"
 
 std::map<int, string> GameManager::levelMap;
+bool GameManager::bIsGameActive;
+
+App* GameManager::app;
 
 GameManager::GameManager()
 {
@@ -20,5 +24,15 @@ void GameManager::LoadMaps()
 
 void GameManager::LoadLevel(int levelKey)
 {
+	// TODO: find some way to clear the world that doesn't cause game to crash!
 	Map::Load(levelMap[levelKey]);
+	if (app)
+	{
+		app->SetupWorld();
+	}
+}
+
+void GameManager::QuitGame()
+{
+	bIsGameActive = false;
 }

@@ -20,6 +20,8 @@ class App
 		bool Start();
 		bool Loop();
 
+		void SetupWorld();
+
 	private:
 		bool bUseVSync;
 };

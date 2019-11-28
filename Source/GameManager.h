@@ -4,6 +4,8 @@
 
 using namespace Leadwerks;
 
+class App;
+
 class GameManager : public Actor
 {
 public:
@@ -26,6 +28,17 @@ public:
 
 	static void LoadLevel(int levelKey);
 
+	static void QuitGame();
+
+	FORCEINLINE static void SetApp(App* a) { app = a; }
+
+	FORCEINLINE static void SetIsGameActive(bool val) { bIsGameActive = val; }
+	FORCEINLINE static bool GetIsGameActive() { return bIsGameActive; }
+
 private:
 	static std::map<int, string> levelMap;
+
+	static bool bIsGameActive;
+
+	static App* app;
 };
