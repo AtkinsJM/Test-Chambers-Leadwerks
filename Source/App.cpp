@@ -5,6 +5,7 @@
 #include "DoorKey.h"
 #include "Door.h"
 #include "SoundManager.h"
+#include "WinPortal.h"
 
 using namespace Leadwerks;
 
@@ -62,6 +63,11 @@ bool App::Start()
 		{
 			Actor* door = new Door();
 			e->SetActor(door);
+		}
+		else if (tag == "WinPortal")
+		{
+			Actor* winPortal = new WinPortal();
+			e->SetActor(winPortal);
 		}
 	}
 
