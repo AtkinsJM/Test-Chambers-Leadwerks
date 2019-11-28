@@ -6,12 +6,12 @@
 #include "Door.h"
 #include "SoundManager.h"
 #include "WinPortal.h"
+#include "GameManager.h"
 
 using namespace Leadwerks;
 
 App::App() : window(NULL), context(NULL), world(NULL), camera(NULL)
 {
-
 	bUseVSync = false;
 }
 
@@ -28,7 +28,9 @@ bool App::Start()
 	world = World::Create();
 	camera = Camera::Create();
 
-	Map::Load("Maps/game.map");
+	GameManager::LoadMaps();
+	GameManager::LoadLevel(0);
+	//Map::Load("Maps/game.map");
 
 	SoundManager::LoadSounds();
 
