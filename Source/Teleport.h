@@ -24,9 +24,6 @@ class Teleport : public Actor
 		void BeginTeleport(Entity* otherEntity);
 
 	private:
-		list<Entity*> collidingEntities;
-		list<Entity*> oldCollidingEntities;
-
 		bool bIsTeleporting;
 
 		Vec3 destination;

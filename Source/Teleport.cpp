@@ -4,9 +4,6 @@
 
 Teleport::Teleport()
 {
-	collidingEntities = list<Entity*>();
-	oldCollidingEntities = list<Entity*>();
-	
 	bIsTeleporting = false;
 	target = nullptr;
 	delay = 1.0f;
