@@ -39,29 +39,7 @@ bool App::Start()
 
 	GameManager::LoadLevel(0);
 
-	for (int i = 0; i < world->CountEntities(); i++)
-	{
-		Entity* e = world->GetEntity(i);
-		string tag = e->GetKeyValue("tag", "");
-		if (tag == "Key")
-		{
-			Actor* doorKey = new DoorKey();
-			e->SetActor(doorKey);
-			doorKey = nullptr;
-		}
-		else if (tag == "Door")
-		{
-			Actor* door = new Door();
-			e->SetActor(door);
-			door = nullptr;
-		}
-		else if (tag == "Portal")
-		{
-			Actor* portal = new Portal();
-			e->SetActor(portal);
-			portal = nullptr;
-		}
-	}
+	
 
 
 	return true;
@@ -96,11 +74,30 @@ void App::SetupMap()
 	{
 		Entity* e = world->GetEntity(i);
 		string tag = e->GetKeyValue("tag", "");
+		if (e->GetActor() != nullptr) { continue; }
 		if (tag == "Teleport")
 		{
 			Actor* teleport = new Teleport();
 			e->SetActor(teleport);
 			teleport = nullptr;
+		}
+		else if (tag == "Key")
+		{
+			Actor* doorKey = new DoorKey();
+			e->SetActor(doorKey);
+			doorKey = nullptr;
+		}
+		else if (tag == "Door")
+		{
+			Actor* door = new Door();
+			e->SetActor(door);
+			door = nullptr;
+		}
+		else if (tag == "Portal")
+		{
+			Actor* portal = new Portal();
+			e->SetActor(portal);
+			portal = nullptr;
 		}
 	}
 	// TODO: work out why following actor assignments cause crash

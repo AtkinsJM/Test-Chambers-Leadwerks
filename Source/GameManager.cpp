@@ -26,8 +26,16 @@ void GameManager::LoadLevel(int levelKey)
 {
 	if (!app) { return; }
 	
-
-	app->world->Clear();
+	Print("Entity count 1:");
+	Print(app->world->CountEntities());
+	app->world->Clear(true);
+	Print("Entity count 2:");
+	Print(app->world->CountEntities());
+	for (int i = 0; i < app->world->CountEntities(); i++)
+	{
+		Entity* e = app->world->GetEntity(i); 
+		Print(e->GetKeyValue("name", "Unknown"));
+	}
 	if (app->camera)
 	{
 		app->camera->Release();
@@ -39,6 +47,13 @@ void GameManager::LoadLevel(int levelKey)
 	Map::Load(levelMap[levelKey]);
 
 	app->SetupMap();
+	Print("Entity count 3:");
+	Print(app->world->CountEntities());
+	for (int i = 0; i < app->world->CountEntities(); i++)
+	{
+		Entity* e = app->world->GetEntity(i);
+		Print(e->GetKeyValue("name", "Unknown"));
+	}
 }
 
 void GameManager::QuitGame()
