@@ -10,7 +10,7 @@
 
 using namespace Leadwerks;
 
-App::App() : window(NULL), context(NULL), world(NULL), camera(NULL)
+App::App() : window(NULL), context(NULL), world(NULL)
 {
 	bUseVSync = false;
 }
@@ -47,8 +47,7 @@ bool App::Loop()
 	if (GameManager::IsLoadingLevel() == true)
 	{
 		world->Clear();
-
-		camera = Camera::Create();
+		
 		GameManager::LoadLevel();
 		PopulateActors();
 	}
@@ -68,6 +67,7 @@ void App::PopulateActors()
 	player->SetKeyValue("name", "Player");
 	player->SetActor(playerController);
 
+	Camera* camera = Camera::Create();
 	Actor* followCamera = new FollowCamera(player);
 	if (camera)
 	{
