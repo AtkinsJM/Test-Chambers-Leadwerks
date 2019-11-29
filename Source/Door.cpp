@@ -8,6 +8,7 @@ Door::Door()
 
 Door::~Door()
 {
+	Print("Door destructor called");
 }
 
 void Door::Attach()

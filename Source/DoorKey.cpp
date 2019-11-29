@@ -16,6 +16,8 @@ DoorKey::DoorKey()
 
 DoorKey::~DoorKey()
 {
+
+	Print("Key destructor called");
 }
 
 void DoorKey::Attach()

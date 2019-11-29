@@ -8,10 +8,12 @@ Portal::Portal()
 	bIsTeleporting = false;
 	delay = 1.0f;
 	destinationKey = 0;
+	startTeleportTime = 0;
 }
 
 Portal::~Portal()
 {
+	Print("Portal destructor called");
 }
 
 void Portal::Attach()
@@ -39,7 +41,6 @@ void Portal::UpdateWorld()
 				Print("Loading level...");
 				GameManager::LoadLevel(destinationKey);
 			}
-			
 		}
 	}
 }

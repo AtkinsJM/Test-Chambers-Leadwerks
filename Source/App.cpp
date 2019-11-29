@@ -26,7 +26,7 @@ bool App::Start()
 	window = Window::Create("Test Chambers", 0, 0, 1280, 720);
 	context = Context::Create(window);
 	world = World::Create();
-	camera = Camera::Create();
+	
 
 	GameManager::SetApp(this);
 	GameManager::SetIsGameActive(true);
@@ -38,7 +38,32 @@ bool App::Start()
 	Collision::SetResponse(Collision::Trigger, Collision::Prop, Collision::Trigger);
 
 	GameManager::LoadLevel(0);
-	
+
+	for (int i = 0; i < world->CountEntities(); i++)
+	{
+		Entity* e = world->GetEntity(i);
+		string tag = e->GetKeyValue("tag", "");
+		if (tag == "Key")
+		{
+			Actor* doorKey = new DoorKey();
+			e->SetActor(doorKey);
+			doorKey = nullptr;
+		}
+		else if (tag == "Door")
+		{
+			Actor* door = new Door();
+			e->SetActor(door);
+			door = nullptr;
+		}
+		else if (tag == "Portal")
+		{
+			Actor* portal = new Portal();
+			e->SetActor(portal);
+			portal = nullptr;
+		}
+	}
+
+
 	return true;
 }
 
@@ -54,16 +79,32 @@ bool App::Loop()
 	return true;
 }
 
-void App::SetupWorld()
+void App::SetupMap()
 {
+	//camera = Camera::Create();
 	Model* player = Model::Box(1.28);
 	Actor* playerController = new PlayerController;
 	player->SetKeyValue("name", "Player");
 	player->SetActor(playerController);
 
 	Actor* followCamera = new FollowCamera(player);
-	camera->SetActor(followCamera);
-
+	if (camera)
+	{
+		camera->SetActor(followCamera);
+	}
+	for (int i = 0; i < world->CountEntities(); i++)
+	{
+		Entity* e = world->GetEntity(i);
+		string tag = e->GetKeyValue("tag", "");
+		if (tag == "Teleport")
+		{
+			Actor* teleport = new Teleport();
+			e->SetActor(teleport);
+			teleport = nullptr;
+		}
+	}
+	// TODO: work out why following actor assignments cause crash
+	/*
 	for (int i = 0; i < world->CountEntities(); i++)
 	{
 		Entity* e = world->GetEntity(i);
@@ -89,4 +130,5 @@ void App::SetupWorld()
 			e->SetActor(portal);
 		}
 	}
+	*/
 }

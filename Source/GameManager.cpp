@@ -24,12 +24,21 @@ void GameManager::LoadMaps()
 
 void GameManager::LoadLevel(int levelKey)
 {
-	// TODO: find some way to clear the world that doesn't cause game to crash!
-	Map::Load(levelMap[levelKey]);
-	if (app)
+	if (!app) { return; }
+	
+
+	app->world->Clear();
+	if (app->camera)
 	{
-		app->SetupWorld();
+		app->camera->Release();
+		app->camera = nullptr;
 	}
+		
+	app->camera = Camera::Create();
+	
+	Map::Load(levelMap[levelKey]);
+
+	app->SetupMap();
 }
 
 void GameManager::QuitGame()
