@@ -27,8 +27,6 @@ bool App::Start()
 	context = Context::Create(window);
 	world = World::Create();
 	
-
-	GameManager::SetApp(this);
 	GameManager::SetIsGameActive(true);
 	GameManager::LoadMaps();
 	SoundManager::LoadSounds();
@@ -44,12 +42,12 @@ bool App::Start()
 bool App::Loop()
 {
 	if (!world) { return true; }
-	if (window->Closed() || window->KeyHit(Key::Escape) || GameManager::GetIsGameActive() == false) { return false; }
-	// TODO: make level key dynamic - stored in GameManager? (system of having new map loaded in loop fixes previous persistence bug)
+	if (window->Closed() || window->KeyHit(Key::Escape) || GameManager::IsGameActive() == false) { return false; }
 
 	if (GameManager::IsLoadingLevel() == true)
 	{
 		world->Clear();
+
 		camera = Camera::Create();
 		GameManager::LoadLevel();
 		PopulateActors();
@@ -80,7 +78,6 @@ void App::PopulateActors()
 	{
 		Entity* e = world->GetEntity(i);
 		string tag = e->GetKeyValue("tag", "");
-		//if (e->GetActor() != nullptr) { continue; }
 		if (tag == "Teleport")
 		{
 			Actor* teleport = new Teleport();
@@ -106,5 +103,4 @@ void App::PopulateActors()
 			portal = nullptr;
 		}
 	}
-	Print(world->CountEntities());
 }

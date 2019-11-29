@@ -32,10 +32,8 @@ public:
 
 	static void StartLoadingLevel(int levelKey);
 	
-	FORCEINLINE static void SetApp(App* a) { app = a; }
-
 	FORCEINLINE static void SetIsGameActive(bool val) { bIsGameActive = val; }
-	FORCEINLINE static bool GetIsGameActive() { return bIsGameActive; }
+	FORCEINLINE static bool IsGameActive() { return bIsGameActive; }
 
 	FORCEINLINE static bool IsLoadingLevel() { return bIsLoadingLevel; }
 
@@ -43,9 +41,7 @@ private:
 	static std::map<int, string> levelMap;
 
 	static bool bIsGameActive;
-
-	static App* app;
-
+	
 	static bool bIsLoadingLevel;
 
 	static int levelToLoad;

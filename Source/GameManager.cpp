@@ -14,7 +14,6 @@ bool GameManager::bIsGameActive;
 bool GameManager::bIsLoadingLevel;
 int GameManager::levelToLoad;
 
-App* GameManager::app;
 
 GameManager::GameManager()
 {
