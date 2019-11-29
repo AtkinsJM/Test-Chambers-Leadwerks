@@ -20,7 +20,7 @@ class App
 		bool Start();
 		bool Loop();
 
-		void SetupMap();
+		void PopulateActors();
 
 	private:
 		bool bUseVSync;

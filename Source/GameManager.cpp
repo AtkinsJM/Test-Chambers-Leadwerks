@@ -1,8 +1,18 @@
 #include "GameManager.h"
 #include "App.h"
+#include "PlayerController.h"
+#include "FollowCamera.h"
+#include "Teleport.h"
+#include "DoorKey.h"
+#include "Door.h"
+#include "SoundManager.h"
+#include "Portal.h"
+#include "GameManager.h"
 
 std::map<int, string> GameManager::levelMap;
 bool GameManager::bIsGameActive;
+bool GameManager::bIsLoadingLevel;
+int GameManager::levelToLoad;
 
 App* GameManager::app;
 
@@ -22,38 +32,16 @@ void GameManager::LoadMaps()
 	levelMap[3] = "Maps/level3.map";
 }
 
-void GameManager::LoadLevel(int levelKey)
+void GameManager::StartLoadingLevel(int levelKey)
 {
-	if (!app) { return; }
-	
-	Print("Entity count 1:");
-	Print(app->world->CountEntities());
-	app->world->Clear(true);
-	Print("Entity count 2:");
-	Print(app->world->CountEntities());
-	for (int i = 0; i < app->world->CountEntities(); i++)
-	{
-		Entity* e = app->world->GetEntity(i); 
-		Print(e->GetKeyValue("name", "Unknown"));
-	}
-	if (app->camera)
-	{
-		app->camera->Release();
-		app->camera = nullptr;
-	}
-		
-	app->camera = Camera::Create();
-	
-	Map::Load(levelMap[levelKey]);
+	levelToLoad = levelKey;
+	bIsLoadingLevel = true;
+}
 
-	app->SetupMap();
-	Print("Entity count 3:");
-	Print(app->world->CountEntities());
-	for (int i = 0; i < app->world->CountEntities(); i++)
-	{
-		Entity* e = app->world->GetEntity(i);
-		Print(e->GetKeyValue("name", "Unknown"));
-	}
+void GameManager::LoadLevel()
+{	
+	Map::Load(levelMap[levelToLoad]);
+	bIsLoadingLevel = false;
 }
 
 void GameManager::QuitGame()

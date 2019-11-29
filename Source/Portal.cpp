@@ -39,7 +39,7 @@ void Portal::UpdateWorld()
 			else
 			{
 				Print("Loading level...");
-				GameManager::LoadLevel(destinationKey);
+				GameManager::StartLoadingLevel(destinationKey);
 			}
 		}
 	}

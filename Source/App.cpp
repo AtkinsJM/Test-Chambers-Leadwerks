@@ -36,12 +36,8 @@ bool App::Start()
 	window->HideMouse();
 
 	Collision::SetResponse(Collision::Trigger, Collision::Prop, Collision::Trigger);
-
-	GameManager::LoadLevel(0);
-
 	
-
-
+	GameManager::StartLoadingLevel(0);
 	return true;
 }
 
@@ -49,17 +45,26 @@ bool App::Loop()
 {
 	if (!world) { return true; }
 	if (window->Closed() || window->KeyHit(Key::Escape) || GameManager::GetIsGameActive() == false) { return false; }
+	// TODO: make level key dynamic - stored in GameManager? (system of having new map loaded in loop fixes previous persistence bug)
+
+	if (GameManager::IsLoadingLevel() == true)
+	{
+		world->Clear();
+		camera = Camera::Create();
+		GameManager::LoadLevel();
+		PopulateActors();
+	}
 
 	Time::Update();
 	world->Update();
 	world->Render();
 	context->Sync(bUseVSync);
+
 	return true;
 }
 
-void App::SetupMap()
+void App::PopulateActors()
 {
-	//camera = Camera::Create();
 	Model* player = Model::Box(1.28);
 	Actor* playerController = new PlayerController;
 	player->SetKeyValue("name", "Player");
@@ -70,11 +75,12 @@ void App::SetupMap()
 	{
 		camera->SetActor(followCamera);
 	}
+
 	for (int i = 0; i < world->CountEntities(); i++)
 	{
 		Entity* e = world->GetEntity(i);
 		string tag = e->GetKeyValue("tag", "");
-		if (e->GetActor() != nullptr) { continue; }
+		//if (e->GetActor() != nullptr) { continue; }
 		if (tag == "Teleport")
 		{
 			Actor* teleport = new Teleport();
@@ -100,32 +106,5 @@ void App::SetupMap()
 			portal = nullptr;
 		}
 	}
-	// TODO: work out why following actor assignments cause crash
-	/*
-	for (int i = 0; i < world->CountEntities(); i++)
-	{
-		Entity* e = world->GetEntity(i);
-		string tag = e->GetKeyValue("tag", "");
-		if (tag == "Teleport")
-		{
-			Actor* teleport = new Teleport();
-			e->SetActor(teleport);
-		}
-		else if (tag == "Key")
-		{
-			Actor* doorKey = new DoorKey();
-			e->SetActor(doorKey);
-		}
-		else if (tag == "Door")
-		{
-			Actor* door = new Door();
-			e->SetActor(door);
-		}
-		else if (tag == "Portal")
-		{
-			Actor* portal = new Portal();
-			e->SetActor(portal);
-		}
-	}
-	*/
+	Print(world->CountEntities());
 }
