@@ -54,12 +54,12 @@ bool App::Loop()
 		GameManager::LoadLevel();
 		PopulateActors();
 	}
-	fadeScreen->Process();
+	
 	Time::Update();
 	world->Update();
 	world->Render();
 	context->Sync(bUseVSync);
-
+	fadeScreen->Process();
 	return true;
 }
 

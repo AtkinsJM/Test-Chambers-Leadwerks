@@ -47,7 +47,7 @@ void GameManager::StartUnloadingCurrentLevel()
 void GameManager::LoadLevel()
 {	
 	Map::Load(levelMap[levelToLoad]);
-	fadeScreen->FadeIn(1.5f);
+	fadeScreen->Reset();
 	bIsLoadingLevel = false;
 }
 

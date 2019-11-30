@@ -23,6 +23,7 @@ class FadeScreen : public Actor
 		//virtual void DrawEach(Camera* camera);
 		//virtual void ReceiveSignal(const std::string& inputname, Entity* sender);
 		virtual void Process();
+		virtual void Reset();
 
 		void FadeIn(float dur);
 		void FadeOut(float dur);
@@ -44,4 +45,7 @@ class FadeScreen : public Actor
 		float currentAlpha;
 
 		float currentFadeTime;
+
+		bool bInitialFade;
+		float resetTime;
 };
