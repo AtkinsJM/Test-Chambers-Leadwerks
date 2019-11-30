@@ -33,6 +33,7 @@ void PlayerController::Attach()
 	// Set up physics on player
 	entity->SetPhysicsMode(Entity::RigidBodyPhysics);
 	entity->SetCollisionType(Collision::Character);
+	entity->SetSweptCollisionMode(true);
 	entity->SetShape(Shape::Box());
 	entity->SetGravityMode(false);
 	entity->SetMass(1);
