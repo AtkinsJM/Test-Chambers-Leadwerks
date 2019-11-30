@@ -13,7 +13,7 @@ FadeScreen::FadeScreen()
 
 	panel = Widget::Panel(0, 0, Window::GetCurrent()->GetWidth(), Window::GetCurrent()->GetHeight(), gui->GetBase());
 
-	color = Vec3(0.4f, 0.4f, 0.4f);
+	color = Vec3(0.15f, 0.15f, 0.15f);
 }
 
 FadeScreen::~FadeScreen()
@@ -32,7 +32,8 @@ void FadeScreen::Process()
 		Print("Current fade time: " + String(currentFadeTime));
 		float completion = currentFadeTime / duration;
 		Print(completion);
-		float newAlpha = Math::Lerp(1 - targetAlpha, targetAlpha, Math::Clamp(completion, 0, 1));
+		float newAlpha = Math::Clamp(Math::Lerp(1 - targetAlpha, targetAlpha, completion), 0, 1);
+		Print(newAlpha);
 		panel->SetObject("backgroundcolor", new Vec4(color.r, color.g, color.b, newAlpha));
 		if (completion >= 1.0f)
 		{

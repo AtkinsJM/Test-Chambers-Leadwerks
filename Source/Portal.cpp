@@ -6,7 +6,7 @@
 Portal::Portal()
 {
 	bIsTeleporting = false;
-	delay = 1.0f;
+	delay = 0.5f;
 	destinationKey = 0;
 	startTeleportTime = 0;
 }
@@ -29,7 +29,6 @@ void Portal::UpdateWorld()
 		float currentDelay = (Time::GetCurrent() - startTeleportTime) / 1000.0f;
 		if (currentDelay >= delay)
 		{
-			SoundManager::Play("win");
 			bIsTeleporting = false;
 			if (destinationKey == -1)
 			{
@@ -62,4 +61,7 @@ void Portal::BeginTeleport()
 {
 	bIsTeleporting = true;
 	startTeleportTime = Time::GetCurrent();
+
+	SoundManager::Play("win");
+	GameManager::StartUnloadingCurrentLevel();
 }

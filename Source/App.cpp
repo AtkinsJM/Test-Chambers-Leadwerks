@@ -34,6 +34,7 @@ bool App::Start()
 	SoundManager::LoadSounds();
 
 	fadeScreen = new FadeScreen();
+	GameManager::SetFadeScreen(fadeScreen);
 
 	window->HideMouse();
 
@@ -52,7 +53,6 @@ bool App::Loop()
 		world->Clear();
 		GameManager::LoadLevel();
 		PopulateActors();
-		fadeScreen->FadeIn(2.0f);
 	}
 	fadeScreen->Process();
 	Time::Update();

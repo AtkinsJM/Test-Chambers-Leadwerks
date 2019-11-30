@@ -5,6 +5,7 @@
 using namespace Leadwerks;
 
 class App;
+class FadeScreen;
 
 class GameManager : public Actor
 {
@@ -31,11 +32,15 @@ public:
 	static void QuitGame();
 
 	static void StartLoadingLevel(int levelKey);
+
+	static void StartUnloadingCurrentLevel();
 	
 	FORCEINLINE static void SetIsGameActive(bool val) { bIsGameActive = val; }
 	FORCEINLINE static bool IsGameActive() { return bIsGameActive; }
 
 	FORCEINLINE static bool IsLoadingLevel() { return bIsLoadingLevel; }
+
+	FORCEINLINE static void SetFadeScreen(FadeScreen* fs) { fadeScreen = fs; }
 
 private:
 	static std::map<int, string> levelMap;
@@ -45,4 +50,6 @@ private:
 	static bool bIsLoadingLevel;
 
 	static int levelToLoad;
+
+	static FadeScreen* fadeScreen;
 };
