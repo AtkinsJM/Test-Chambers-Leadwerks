@@ -6,7 +6,8 @@ Teleport::Teleport()
 {
 	bIsTeleporting = false;
 	target = nullptr;
-	delay = 1.0f;
+	delay = 0.5f;
+	startTeleportTime = 0;
 }
 
 Teleport::~Teleport()
