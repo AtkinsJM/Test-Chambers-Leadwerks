@@ -56,7 +56,6 @@ void FadeScreen::Reset()
 void FadeScreen::FadeIn(float dur)
 {
 	bIsFading = true;
-	currentAlpha = 1;
 	targetAlpha = 0;
 	duration = dur;
 	fadeStartTime = Time::GetCurrent();
@@ -65,10 +64,7 @@ void FadeScreen::FadeIn(float dur)
 void FadeScreen::FadeOut(float dur)
 {
 	bIsFading = true;
-	currentAlpha = 0;
 	targetAlpha = 1;
 	duration = dur;
 	fadeStartTime = Time::GetCurrent();
 }
-
-

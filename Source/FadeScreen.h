@@ -42,7 +42,6 @@ class FadeScreen : public Actor
 		bool bIsFading;
 
 		Vec3 color;
-		float currentAlpha;
 
 		float currentFadeTime;
 

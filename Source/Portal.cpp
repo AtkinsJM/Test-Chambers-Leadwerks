@@ -32,12 +32,10 @@ void Portal::UpdateWorld()
 			bIsTeleporting = false;
 			if (destinationKey == -1)
 			{
-				Print("Quitting...");
 				GameManager::QuitGame();
 			}
 			else
 			{
-				Print("Loading level...");
 				GameManager::StartLoadingLevel(destinationKey);
 			}
 		}
