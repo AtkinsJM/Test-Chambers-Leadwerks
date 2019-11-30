@@ -6,6 +6,8 @@
 
 using namespace Leadwerks;
 
+class FadeScreen;
+
 class App
 {
 	public:
@@ -23,4 +25,7 @@ class App
 
 	private:
 		bool bUseVSync;
+
+		FadeScreen* fadeScreen;
+
 };

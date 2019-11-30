@@ -7,16 +7,18 @@
 #include "SoundManager.h"
 #include "Portal.h"
 #include "GameManager.h"
+#include "FadeScreen.h"
 
 using namespace Leadwerks;
 
-App::App() : window(NULL), context(NULL), world(NULL)
+App::App() : window(NULL), context(NULL), world(NULL), fadeScreen(NULL)
 {
 	bUseVSync = false;
 }
 
 App::~App()
 {
+	delete fadeScreen;
 	delete world;
 	delete window;
 }
@@ -31,6 +33,8 @@ bool App::Start()
 	GameManager::LoadMaps();
 	SoundManager::LoadSounds();
 
+	fadeScreen = new FadeScreen();
+
 	window->HideMouse();
 
 	Collision::SetResponse(Collision::Trigger, Collision::Prop, Collision::Trigger);
@@ -41,17 +45,16 @@ bool App::Start()
 
 bool App::Loop()
 {
-	if (!world) { return true; }
 	if (window->Closed() || window->KeyHit(Key::Escape) || GameManager::IsGameActive() == false) { return false; }
 
-	if (GameManager::IsLoadingLevel() == true)
+	if (GameManager::IsLoadingLevel())
 	{
 		world->Clear();
-		
 		GameManager::LoadLevel();
 		PopulateActors();
+		fadeScreen->FadeIn(2.0f);
 	}
-
+	fadeScreen->Process();
 	Time::Update();
 	world->Update();
 	world->Render();
@@ -62,17 +65,15 @@ bool App::Loop()
 
 void App::PopulateActors()
 {
-	Model* player = Model::Box(1.28);
-	Actor* playerController = new PlayerController;
+	Model* player = Model::Box(1.28);	
 	player->SetKeyValue("name", "Player");
+	Actor* playerController = new PlayerController;
 	player->SetActor(playerController);
 
 	Camera* camera = Camera::Create();
+	camera->SetKeyValue("name", "Camera");
 	Actor* followCamera = new FollowCamera(player);
-	if (camera)
-	{
-		camera->SetActor(followCamera);
-	}
+	camera->SetActor(followCamera);
 
 	for (int i = 0; i < world->CountEntities(); i++)
 	{
@@ -82,25 +83,21 @@ void App::PopulateActors()
 		{
 			Actor* teleport = new Teleport();
 			e->SetActor(teleport);
-			teleport = nullptr;
 		}
 		else if (tag == "Key")
 		{
 			Actor* doorKey = new DoorKey();
 			e->SetActor(doorKey);
-			doorKey = nullptr;
 		}
 		else if (tag == "Door")
 		{
 			Actor* door = new Door();
 			e->SetActor(door);
-			door = nullptr;
 		}
 		else if (tag == "Portal")
 		{
 			Actor* portal = new Portal();
 			e->SetActor(portal);
-			portal = nullptr;
 		}
 	}
 }
