@@ -41,6 +41,5 @@ class DoorKey : public Actor
 
 		DoorKeyType doorKeyType;
 
-		Entity* parent;
 		Entity* model;
 };

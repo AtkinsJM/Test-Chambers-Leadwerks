@@ -10,8 +10,6 @@ DoorKey::DoorKey()
 	bFloats = true;
 	bRotates = true;
 	doorKeyType = DoorKeyType::BLUE_KEY;
-
-	parent = nullptr;
 }
 
 DoorKey::~DoorKey()
@@ -25,15 +23,12 @@ void DoorKey::Attach()
 	entity->SetCollisionType(Collision::Trigger);
 	entity->SetSweptCollisionMode(true);
 	
-	parent = entity->GetParent();
-	if (parent)
-	{
-		startPosition = parent->GetPosition(true);
-	}
 	model = entity->GetChild(0);
 	if (model)
 	{
-		model->SetCollisionType(Collision::None);
+		startPosition = model->GetPosition(true);
+		model->SetCollisionType(Collision::None, true);
+		model->SetShadowMode(2, true);
 	}
 
 	amplitude = String::Float(entity->GetKeyValue("amplitude"));
@@ -48,23 +43,23 @@ void DoorKey::Attach()
 	switch (doorKeyType)
 	{
 		case DoorKeyType::RED_KEY:
-			model->SetColor(RED_COLOUR);
+			model->SetColor(RED_COLOUR, COLOR_DIFFUSE, true);
 			break;
 		case DoorKeyType::YELLOW_KEY:
-			model->SetColor(YELLOW_COLOUR);
+			model->SetColor(YELLOW_COLOUR, COLOR_DIFFUSE, true);
 			break;
 		case DoorKeyType::GREEN_KEY:
-			model->SetColor(GREEN_COLOUR);
+			model->SetColor(GREEN_COLOUR, COLOR_DIFFUSE, true);
 			break;
 		case DoorKeyType::ORANGE_KEY:
-			model->SetColor(ORANGE_COLOUR);
+			model->SetColor(ORANGE_COLOUR, COLOR_DIFFUSE, true);
 			break;
 		case DoorKeyType::PURPLE_KEY:
-			model->SetColor(PURPLE_COLOUR);
+			model->SetColor(PURPLE_COLOUR, COLOR_DIFFUSE, true);
 			break;
 		case DoorKeyType::BLUE_KEY:
 		default:
-			model->SetColor(BLUE_COLOUR);
+			model->SetColor(BLUE_COLOUR, COLOR_DIFFUSE, true);
 			break;
 	}
 
@@ -73,24 +68,22 @@ void DoorKey::Attach()
 
 void DoorKey::UpdateWorld()
 {
-	if (!parent) { return; }
-
+	if (!model) { return; }
 	float deltaTime = (Time::GetCurrent() - recordedTime) / 1000.0f;
 	recordedTime = Time::GetCurrent();
 
 	if (bFloats)
 	{
-		parent->SetPosition(startPosition + Vec3(0, Math::Sin(360 * (Time::GetCurrent()/1000.0f) * frequency) * amplitude, 0), true);
+		model->SetPosition(startPosition + Vec3(0, Math::Sin(360 * (Time::GetCurrent()/1000.0f) * frequency) * amplitude, 0), true);
 	}
 
 	if (bRotates)
 	{
-		parent->SetRotation(parent->GetRotation(true) + Vec3(0, rotationSpeed * deltaTime, 0), true);
+		model->SetRotation(model->GetRotation(true) + Vec3(0, rotationSpeed * deltaTime, 0), true);
 	}
 }
 
 void DoorKey::Destroy()
 {
-	entity->SetActor(nullptr);
-	parent->Release();
+	entity->Release();
 }
