@@ -8,6 +8,7 @@
 #include "Portal.h"
 #include "GameManager.h"
 #include "FadeScreen.h"
+#include "UserInterface.h"
 
 using namespace Leadwerks;
 
@@ -32,6 +33,7 @@ bool App::Start()
 	GameManager::SetIsGameActive(true);
 	GameManager::LoadMaps();
 	SoundManager::LoadSounds();
+	UserInterface::LoadImages();
 
 	fadeScreen = new FadeScreen();
 	GameManager::SetFadeScreen(fadeScreen);

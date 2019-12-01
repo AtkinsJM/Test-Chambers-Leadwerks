@@ -54,4 +54,6 @@ class PlayerController : public Actor
 		bool bIsTeleporting;
 
 		int doorKeySequence = 0;
+
+		int keysPickedUp;
 };

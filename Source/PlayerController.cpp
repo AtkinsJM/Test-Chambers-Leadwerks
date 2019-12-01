@@ -3,6 +3,7 @@
 #include "DoorKey.h"
 #include "Door.h"
 #include "SoundManager.h"
+#include "UserInterface.h"
 
 PlayerController::PlayerController()
 {
@@ -13,6 +14,8 @@ PlayerController::PlayerController()
 	distanceFromOrigin = sqrt((width / 2) * (width / 2) * 2);
 
 	bIsTeleporting = false;
+	
+	keysPickedUp = 0;
 
 	// Set up custom collision type for pick
 	Collision::SetResponse(10, Collision::Scene, Collision::Collide);
@@ -172,6 +175,37 @@ void PlayerController::PickUpDoorKey(DoorKey* doorKey)
 	doorKeySequence |= static_cast<int>(doorKey->GetDoorKeyType());
 	doorKey->Destroy();
 	SoundManager::Play("pickup");
+
+	string imageKey = "";
+	switch (doorKey->GetDoorKeyType())
+	{
+		case DoorKeyType::BLUE_KEY:
+			imageKey = "blueKeySprite";
+			break;
+		case DoorKeyType::RED_KEY:
+			imageKey = "redKeySprite";
+			break;
+		case DoorKeyType::YELLOW_KEY:
+			imageKey = "yellowKeySprite";
+			break;
+		case DoorKeyType::GREEN_KEY:
+			imageKey = "greenKeySprite";
+			break;
+		case DoorKeyType::ORANGE_KEY:
+			imageKey = "orangeKeySprite";
+			break;
+		case DoorKeyType::PURPLE_KEY:
+			imageKey = "purpleKeySprite";
+			break;
+		default:
+			break;
+	}	
+	int x = 12 + (keysPickedUp * 36);
+	int y = Window::GetCurrent()->GetClientHeight() - 72;
+	
+	UserInterface::CreateImage(imageKey, x, y, 24, 60);
+
+	keysPickedUp++;
 }
 
 bool PlayerController::HasDoorKey(DoorKeyType doorKeyType)
