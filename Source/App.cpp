@@ -7,19 +7,18 @@
 #include "SoundManager.h"
 #include "Portal.h"
 #include "GameManager.h"
-#include "FadeScreen.h"
 #include "UserInterface.h"
 
 using namespace Leadwerks;
 
-App::App() : window(NULL), context(NULL), world(NULL), fadeScreen(NULL)
+App::App() : window(NULL), context(NULL), world(NULL), userInterface(NULL)
 {
 	bUseVSync = false;
 }
 
 App::~App()
 {
-	delete fadeScreen;
+	delete userInterface;
 	delete world;
 	delete window;
 }
@@ -29,20 +28,18 @@ bool App::Start()
 	window = Window::Create("Test Chambers", 0, 0, 1280, 720);
 	context = Context::Create(window);
 	world = World::Create();
-	
-	GameManager::SetIsGameActive(true);
-	GameManager::LoadMaps();
-	SoundManager::LoadSounds();
-	UserInterface::LoadImages();
-
-	fadeScreen = new FadeScreen();
-	GameManager::SetFadeScreen(fadeScreen);
+	userInterface = new UserInterface();
 
 	window->HideMouse();
 
 	Collision::SetResponse(Collision::Trigger, Collision::Prop, Collision::Trigger);
 	
+	GameManager::SetUserInterface(userInterface);
+	GameManager::SetIsGameActive(true);
+	GameManager::LoadMaps();
+	SoundManager::LoadSounds();
 	GameManager::StartLoadingLevel(0);
+
 	return true;
 }
 
@@ -54,6 +51,7 @@ bool App::Loop()
 	{
 		world->Clear();
 		GameManager::LoadLevel();
+		userInterface->Reset();
 		PopulateActors();
 	}
 	
@@ -61,7 +59,8 @@ bool App::Loop()
 	world->Update();
 	world->Render();
 	context->Sync(bUseVSync);
-	fadeScreen->Process();
+	userInterface->Process();
+
 	return true;
 }
 

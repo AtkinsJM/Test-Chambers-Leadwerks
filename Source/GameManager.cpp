@@ -7,14 +7,13 @@
 #include "Door.h"
 #include "SoundManager.h"
 #include "Portal.h"
-#include "GameManager.h"
-#include "FadeScreen.h"
+#include "UserInterface.h"
 
 std::map<int, string> GameManager::levelMap;
 bool GameManager::bIsGameActive;
 bool GameManager::bIsLoadingLevel;
 int GameManager::levelToLoad;
-FadeScreen* GameManager::fadeScreen;
+UserInterface* GameManager::userInterface;
 
 
 GameManager::GameManager()
@@ -41,13 +40,17 @@ void GameManager::StartLoadingLevel(int levelKey)
 
 void GameManager::StartUnloadingCurrentLevel()
 {
-	fadeScreen->FadeOut(0.5f);
+	userInterface->FadeOut(0.5f);
+}
+
+void GameManager::CreateImage(string imageKey, int x, int y, int width, int height)
+{
+	userInterface->CreateImage(imageKey, x, y, width, height);
 }
 
 void GameManager::LoadLevel()
 {	
 	Map::Load(levelMap[levelToLoad]);
-	fadeScreen->Reset();
 	bIsLoadingLevel = false;
 }
 

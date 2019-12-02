@@ -4,6 +4,8 @@
 
 using namespace Leadwerks;
 
+class FadeScreen;
+
 class UserInterface : public Actor
 {
 	public:
@@ -21,12 +23,21 @@ class UserInterface : public Actor
 		//virtual void Draw();
 		//virtual void DrawEach(Camera* camera);
 		//virtual void ReceiveSignal(const std::string& inputname, Entity* sender);
-	
-		static void LoadImages();
+		virtual void Process();
+		virtual void Reset();
 
-		static void CreateImage(string imageKey, int x, int y, int width, int height);
+		void LoadImages();
+
+		void CreateImage(string imageKey, int x, int y, int width, int height);
+
+		void FadeIn(float dur);
+		void FadeOut(float dur);
 
 	private:
 		GUI* gui;
 		static std::map<string, string> imageMap;
+
+		list<Widget*> activeWidgets;
+
+		FadeScreen* fadeScreen;
 };

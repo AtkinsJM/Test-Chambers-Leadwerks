@@ -7,6 +7,7 @@
 using namespace Leadwerks;
 
 class FadeScreen;
+class UserInterface;
 
 class App
 {
@@ -25,7 +26,5 @@ class App
 
 	private:
 		bool bUseVSync;
-
-		FadeScreen* fadeScreen;
-
+		UserInterface* userInterface;
 };

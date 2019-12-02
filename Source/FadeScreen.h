@@ -8,7 +8,7 @@ class App;
 class FadeScreen : public Actor
 {
 	public:
-		FadeScreen();
+		FadeScreen(GUI* gui);
 		~FadeScreen();
 		//virtual void Attach();
 		//virtual void Detach();

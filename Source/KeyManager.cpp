@@ -1,7 +1,7 @@
 #include "KeyManager.h"
 #include "DoorKey.h"
 #include "SoundManager.h"
-#include "UserInterface.h"
+#include "GameManager.h"
 
 KeyManager::KeyManager()
 {
@@ -45,7 +45,7 @@ void KeyManager::PickUpDoorKey(DoorKey* doorKey)
 	int x = 12 + (keysPickedUp * 36);
 	int y = Window::GetCurrent()->GetClientHeight() - 72;
 
-	UserInterface::CreateImage(imageKey, x, y, 24, 60);
+	GameManager::CreateImage(imageKey, x, y, 24, 60);
 
 	keysPickedUp++;
 }

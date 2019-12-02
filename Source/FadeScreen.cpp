@@ -1,19 +1,20 @@
 #include "FadeScreen.h"
 #include "App.h"
 
-FadeScreen::FadeScreen()
+FadeScreen::FadeScreen(GUI* gui) : gui(gui)
 {
-	//
-	//create gui
-	gui = GUI::Create(Context::GetCurrent());
-	float guiScale = gui->GetScale();
-	gui->GetBase()->SetScript("Scripts/GUI/Panel.lua");
-	//make the base gui invisible if you want
-	gui->GetBase()->SetObject("backgroundcolor", new Vec4(0, 0, 0, 0));
-
 	panel = Widget::Panel(0, 0, Window::GetCurrent()->GetWidth(), Window::GetCurrent()->GetHeight(), gui->GetBase());
 
 	color = Vec3(0.15f, 0.15f, 0.15f);
+
+	targetAlpha = 0;
+	duration = 0;
+
+	fadeStartTime = 0;
+
+	currentFadeTime = 0;
+
+	resetTime = 0;
 
 	bInitialFade = false;
 	bIsFading = false;
