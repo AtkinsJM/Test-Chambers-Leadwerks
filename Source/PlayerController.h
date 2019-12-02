@@ -1,10 +1,10 @@
+#pragma once
 #include "Leadwerks.h"
-#include "DoorKeyType.h"
 
 using namespace Leadwerks;
 
-class DoorKey;
 class Door;
+class KeyManager;
 
 class PlayerController : public Actor
 {
@@ -28,10 +28,6 @@ class PlayerController : public Actor
 
 		bool IsBlocked(Vec3 direction);
 
-		void PickUpDoorKey(DoorKey* doorKey);
-
-		bool HasDoorKey(DoorKeyType doorKeyType);
-
 		Door* IsDoorPresent();
 
 		FORCEINLINE void ToggleIsTeleporting() { bIsTeleporting = !bIsTeleporting; }
@@ -53,7 +49,6 @@ class PlayerController : public Actor
 		float distanceFromOrigin;
 		bool bIsTeleporting;
 
-		int doorKeySequence = 0;
+		KeyManager* keyManager;
 
-		int keysPickedUp;
 };

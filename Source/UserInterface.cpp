@@ -24,6 +24,8 @@ void UserInterface::LoadImages()
 
 void UserInterface::CreateImage(string imageKey, int x, int y, int width, int height)
 {
+	// TODO create single gui, rather than one per image
+	// TODO consider whether class should be static, or instanced by the app and passed to the GameManager?
 	//create gui
 	GUI*  gui = GUI::Create(Context::GetCurrent());
 	float guiScale = gui->GetScale();

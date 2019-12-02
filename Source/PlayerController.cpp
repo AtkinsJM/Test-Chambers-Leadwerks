@@ -4,6 +4,7 @@
 #include "Door.h"
 #include "SoundManager.h"
 #include "UserInterface.h"
+#include "KeyManager.h"
 
 PlayerController::PlayerController()
 {
@@ -15,7 +16,7 @@ PlayerController::PlayerController()
 
 	bIsTeleporting = false;
 	
-	keysPickedUp = 0;
+	keyManager = new KeyManager();
 
 	// Set up custom collision type for pick
 	Collision::SetResponse(10, Collision::Scene, Collision::Collide);
@@ -24,6 +25,7 @@ PlayerController::PlayerController()
 
 PlayerController::~PlayerController()
 {
+	delete keyManager;
 }
 
 void PlayerController::Attach()
@@ -101,7 +103,7 @@ void PlayerController::UpdateWorld()
 		Door* door = IsDoorPresent();
 		if (door)
 		{
-			if (HasDoorKey(door->GetRequiredKeyType()))
+			if (keyManager->HasDoorKey(door->GetRequiredKeyType()))
 			{
 				door->Unlock();
 				SoundManager::Play("doorUnlocked");
@@ -123,7 +125,7 @@ void PlayerController::Collision(Entity* otherEntity, const Vec3& position, cons
 			DoorKey* doorKey = static_cast<DoorKey*>(otherEntity->GetActor());
 			if (doorKey)
 			{
-				PickUpDoorKey(doorKey);
+				keyManager->PickUpDoorKey(doorKey);
 			}
 		}
 	}
@@ -168,49 +170,6 @@ bool PlayerController::IsBlocked(Vec3 direction)
 		return true;
 	}
 	return false;
-}
-
-void PlayerController::PickUpDoorKey(DoorKey* doorKey)
-{
-	doorKeySequence |= static_cast<int>(doorKey->GetDoorKeyType());
-	doorKey->Destroy();
-	SoundManager::Play("pickup");
-
-	string imageKey = "";
-	switch (doorKey->GetDoorKeyType())
-	{
-		case DoorKeyType::BLUE_KEY:
-			imageKey = "blueKeySprite";
-			break;
-		case DoorKeyType::RED_KEY:
-			imageKey = "redKeySprite";
-			break;
-		case DoorKeyType::YELLOW_KEY:
-			imageKey = "yellowKeySprite";
-			break;
-		case DoorKeyType::GREEN_KEY:
-			imageKey = "greenKeySprite";
-			break;
-		case DoorKeyType::ORANGE_KEY:
-			imageKey = "orangeKeySprite";
-			break;
-		case DoorKeyType::PURPLE_KEY:
-			imageKey = "purpleKeySprite";
-			break;
-		default:
-			break;
-	}	
-	int x = 12 + (keysPickedUp * 36);
-	int y = Window::GetCurrent()->GetClientHeight() - 72;
-	
-	UserInterface::CreateImage(imageKey, x, y, 24, 60);
-
-	keysPickedUp++;
-}
-
-bool PlayerController::HasDoorKey(DoorKeyType doorKeyType)
-{
-	return (doorKeySequence & static_cast<int>(doorKeyType)) == static_cast<int>(doorKeyType);
 }
 
 Door* PlayerController::IsDoorPresent()
