@@ -4,7 +4,6 @@
 
 using namespace Leadwerks;
 
-class App;
 class UserInterface;
 
 class GameManager : public Actor

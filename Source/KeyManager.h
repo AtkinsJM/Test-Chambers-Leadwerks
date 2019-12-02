@@ -30,7 +30,7 @@ class KeyManager : public Actor
 
 	private:
 
-		int doorKeySequence = 0;
+		int doorKeySequence;
 
 		int keysPickedUp;
 };

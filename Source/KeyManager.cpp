@@ -5,6 +5,7 @@
 
 KeyManager::KeyManager()
 {
+	doorKeySequence = 0;
 	keysPickedUp = 0;
 }
 
