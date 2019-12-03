@@ -31,6 +31,9 @@ class PlayerController : public Actor
 		Door* IsDoorPresent();
 
 		FORCEINLINE void ToggleIsTeleporting() { bIsTeleporting = !bIsTeleporting; }
+		FORCEINLINE void ToggleIsBeingTransported() { bIsBeingTransported = !bIsBeingTransported; }
+
+		FORCEINLINE Vec3 GetTargetPosition() { return targetPosition; }
 
 	private:
 		Vec3 forwardRotationPoint, backRotationPoint, leftRotationPoint, rightRotationPoint;
@@ -48,7 +51,10 @@ class PlayerController : public Actor
 		
 		float distanceFromOrigin;
 		bool bIsTeleporting;
+		bool bIsBeingTransported;
 
 		KeyManager* keyManager;
+
+		Vec3 targetPosition;
 
 };

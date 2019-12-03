@@ -10,11 +10,13 @@ PlayerController::PlayerController()
 {
 	width = 1.28f;
 	rotationSpeed = 160.0f;
+	rotationAngle = 0;
 	window = Window::GetCurrent();
 	bIsRolling = false;
 	distanceFromOrigin = sqrt((width / 2) * (width / 2) * 2);
 
 	bIsTeleporting = false;
+	bIsBeingTransported = false;
 	
 	keyManager = new KeyManager();
 
@@ -67,7 +69,7 @@ void PlayerController::UpdateWorld()
 		}
 		return;
 	}
-	else if (bIsTeleporting) { return; }
+	else if (bIsTeleporting || bIsBeingTransported) { return; }
 
 	if (window->KeyDown(Key::W) || window->KeyDown(Key::Up))
 	{
@@ -165,7 +167,10 @@ void PlayerController::Roll()
 bool PlayerController::IsBlocked(Vec3 direction)
 {
 	PickInfo pickInfo;
-	if (World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + direction, pickInfo, 0.0f, false, 10))
+	targetPosition = entity->GetPosition(true) + direction;
+	// Returns true if there is an obstacle in - or no ground below - the player's target position
+	if (World::GetCurrent()->Pick(entity->GetPosition(true), targetPosition, pickInfo, 0.0f, false, 10) ||
+		!World::GetCurrent()->Pick(targetPosition, targetPosition + Vec3(0, -width, 0), pickInfo, 0.0f, false, 10))
 	{
 		return true;
 	}

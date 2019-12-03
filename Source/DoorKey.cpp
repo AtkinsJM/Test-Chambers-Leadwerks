@@ -6,23 +6,24 @@ DoorKey::DoorKey()
 	amplitude = 0.2f;
 	frequency = 0.5f;
 	rotationSpeed = 90.0f;
+	recordedTime = 0;
 
 	bFloats = true;
 	bRotates = true;
 	doorKeyType = DoorKeyType::BLUE_KEY;
+
+	model = nullptr;
 }
 
 DoorKey::~DoorKey()
 {
 
-	Print("Key destructor called");
 }
 
 void DoorKey::Attach()
 {
 	entity->SetCollisionType(Collision::Trigger);
 	entity->SetSweptCollisionMode(true);
-	
 	model = entity->GetChild(0);
 	if (model)
 	{

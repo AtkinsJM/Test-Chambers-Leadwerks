@@ -8,6 +8,7 @@
 #include "Portal.h"
 #include "GameManager.h"
 #include "UserInterface.h"
+#include "MovingPlatform.h"
 
 using namespace Leadwerks;
 
@@ -38,7 +39,7 @@ bool App::Start()
 	GameManager::SetIsGameActive(true);
 	GameManager::LoadMaps();
 	SoundManager::LoadSounds();
-	GameManager::StartLoadingLevel(0);
+	GameManager::StartLoadingLevel(2);
 
 	return true;
 }
@@ -99,6 +100,11 @@ void App::PopulateActors()
 		{
 			Actor* portal = new Portal();
 			e->SetActor(portal);
+		}
+		else if (tag == "MovingPlatform")
+		{
+			Actor* movingPlatform = new MovingPlatform();
+			e->SetActor(movingPlatform);
 		}
 	}
 }
