@@ -23,6 +23,10 @@ class Teleport : public Actor
 
 		void BeginTeleport(Entity* otherEntity);
 
+		void OnBeginCollision(Entity* otherEntity);
+
+		void OnEndCollision(Entity* otherEntity);
+
 	private:
 		bool bIsTeleporting;
 
@@ -32,4 +36,7 @@ class Teleport : public Actor
 
 		float delay;
 		float startTeleportTime;
+
+		vector<Entity*> collisionsLastFrame;
+		vector<Entity*> currentCollisions;
 };

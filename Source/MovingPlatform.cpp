@@ -95,7 +95,6 @@ void MovingPlatform::Collision(Entity* otherEntity, const Vec3& position, const 
 {
 	if (!bIsTransporting)
 	{
-		Print("***COLLISION!");
 		PlayerController* player = static_cast<PlayerController*>(otherEntity->GetActor());
 		if (player)
 		{
