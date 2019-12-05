@@ -6,10 +6,9 @@ Teleport::Teleport()
 {
 	bIsTeleporting = false;
 	target = nullptr;
-	delay = 0.5f;
+	delay = 0.1f;
 	startTeleportTime = 0;
 
-	Collision::SetResponse(11, Collision::Character, Collision::Collide);
 }
 
 Teleport::~Teleport()
@@ -36,7 +35,8 @@ void Teleport::UpdateWorld()
 	if (!bIsTeleporting)
 	{
 		PickInfo pickInfo;
-		if (World::GetCurrent()->Pick(entity->GetPosition(true) - Vec3(0, 0.05f, 0), entity->GetPosition(true) + Vec3(0, 0.05f, 0), pickInfo, 0.0f, false, 11))
+		//if (World::GetCurrent()->Pick(entity->GetPosition(true) - Vec3(0, 0.05f, 0), entity->GetPosition(true) + Vec3(0, 0.02f, 0), pickInfo, 0.0f, false, 11))
+		if (World::GetCurrent()->Pick(Vec3(entity->GetPosition(true).x, -0.01f, entity->GetPosition(true).z), entity->GetPosition(true), pickInfo, 0.0f, false, 11))
 		{
 			if (std::find(currentCollisions.begin(), currentCollisions.end(), pickInfo.entity) == currentCollisions.end())
 			{
@@ -45,6 +45,7 @@ void Teleport::UpdateWorld()
 			
 		}
 	}
+
 	if (bIsTeleporting)
 	{
 		float currentDelay = (Time::GetCurrent() - startTeleportTime) / 1000.0f;
@@ -106,6 +107,12 @@ void Teleport::BeginTeleport(Entity* otherEntity)
 void Teleport::OnBeginCollision(Entity* otherEntity)
 {
 	Print("Beginning collision with " + otherEntity->GetKeyValue("name", "Unknown"));
+	PlayerController* player = static_cast<PlayerController*>(otherEntity->GetActor());
+	if (player)
+	{
+		player->ToggleIsTeleporting();
+		BeginTeleport(otherEntity);
+	}
 }
 
 void Teleport::OnEndCollision(Entity* otherEntity)

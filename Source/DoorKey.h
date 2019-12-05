@@ -25,6 +25,10 @@ class DoorKey : public Actor
 
 		void Destroy();
 
+		void OnBeginCollision(Entity* otherEntity);
+
+		void OnEndCollision(Entity* otherEntity);
+
 		FORCEINLINE DoorKeyType GetDoorKeyType() { return doorKeyType; }
 
 	private:
@@ -42,4 +46,7 @@ class DoorKey : public Actor
 		DoorKeyType doorKeyType;
 
 		Entity* model;
+
+		vector<Entity*> collisionsLastFrame;
+		vector<Entity*> currentCollisions;
 };

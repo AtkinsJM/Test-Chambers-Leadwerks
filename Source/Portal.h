@@ -23,6 +23,10 @@ public:
 
 	void BeginTeleport();
 
+	void OnBeginCollision(Entity* otherEntity);
+
+	void OnEndCollision(Entity* otherEntity);
+
 private:
 	// TODO: change vairable name
 	bool bIsTeleporting;
@@ -31,4 +35,7 @@ private:
 	float startTeleportTime;
 
 	int destinationKey;
+
+	vector<Entity*> collisionsLastFrame;
+	vector<Entity*> currentCollisions;
 };

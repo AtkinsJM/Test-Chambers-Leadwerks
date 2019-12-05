@@ -120,17 +120,7 @@ void PlayerController::UpdateWorld()
 
 void PlayerController::Collision(Entity* otherEntity, const Vec3& position, const Vec3& normal, float speed)
 {
-	if (otherEntity)
-	{
-		if (otherEntity->GetKeyValue("tag") == "Key")
-		{
-			DoorKey* doorKey = static_cast<DoorKey*>(otherEntity->GetActor());
-			if (doorKey)
-			{
-				keyManager->PickUpDoorKey(doorKey);
-			}
-		}
-	}
+
 }
 
 void PlayerController::StartRolling(Vec3 rotationPoint)

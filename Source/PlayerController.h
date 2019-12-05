@@ -35,6 +35,8 @@ class PlayerController : public Actor
 
 		FORCEINLINE Vec3 GetTargetPosition() { return targetPosition; }
 
+		FORCEINLINE KeyManager* GetKeyManager() { return keyManager; }
+
 	private:
 		Vec3 forwardRotationPoint, backRotationPoint, leftRotationPoint, rightRotationPoint;
 		float width;

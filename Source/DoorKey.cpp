@@ -1,5 +1,7 @@
 #include "DoorKey.h"
 #include "Constants.h"
+#include "PlayerController.h"
+#include "KeyManager.h"
 
 DoorKey::DoorKey()
 {
@@ -82,9 +84,51 @@ void DoorKey::UpdateWorld()
 	{
 		model->SetRotation(model->GetRotation(true) + Vec3(0, rotationSpeed * deltaTime, 0), true);
 	}
+
+	PickInfo pickInfo;
+
+	if (World::GetCurrent()->Pick(Vec3(entity->GetPosition(true).x, -0.01f, entity->GetPosition(true).z), model->GetPosition(true), pickInfo, 0.0f, false, 11))
+	{
+		if (std::find(currentCollisions.begin(), currentCollisions.end(), pickInfo.entity) == currentCollisions.end())
+		{
+			currentCollisions.push_back(pickInfo.entity);
+		}
+
+	}
+
+	for (Entity* ent : currentCollisions)
+	{
+		if (std::find(collisionsLastFrame.begin(), collisionsLastFrame.end(), ent) == collisionsLastFrame.end())
+		{
+			OnBeginCollision(ent);
+		}
+	}
+
+	for (Entity* ent : collisionsLastFrame)
+	{
+		if (std::find(currentCollisions.begin(), currentCollisions.end(), ent) == currentCollisions.end())
+		{
+			OnEndCollision(ent);
+		}
+	}
+	collisionsLastFrame = currentCollisions;
+	currentCollisions.clear();
 }
 
 void DoorKey::Destroy()
 {
 	entity->Release();
+}
+
+void DoorKey::OnBeginCollision(Entity* otherEntity)
+{
+	PlayerController* player = static_cast<PlayerController*>(otherEntity->GetActor());
+	if (player)
+	{
+		player->GetKeyManager()->PickUpDoorKey(this);
+	}		
+}
+
+void DoorKey::OnEndCollision(Entity* otherEntity)
+{
 }
