@@ -31,20 +31,16 @@ void Teleport::Attach()
 }
 
 void Teleport::UpdateWorld()
-{
-	if (!bIsTeleporting)
+{	
+	PickInfo pickInfo;
+	//if (World::GetCurrent()->Pick(entity->GetPosition(true) - Vec3(0, 0.05f, 0), entity->GetPosition(true) + Vec3(0, 0.02f, 0), pickInfo, 0.0f, false, 11))
+	if (World::GetCurrent()->Pick(Vec3(entity->GetPosition(true).x, -0.01f, entity->GetPosition(true).z), entity->GetPosition(true), pickInfo, 0.0f, false, 11))
 	{
-		PickInfo pickInfo;
-		//if (World::GetCurrent()->Pick(entity->GetPosition(true) - Vec3(0, 0.05f, 0), entity->GetPosition(true) + Vec3(0, 0.02f, 0), pickInfo, 0.0f, false, 11))
-		if (World::GetCurrent()->Pick(Vec3(entity->GetPosition(true).x, -0.01f, entity->GetPosition(true).z), entity->GetPosition(true), pickInfo, 0.0f, false, 11))
+		if (std::find(currentCollisions.begin(), currentCollisions.end(), pickInfo.entity) == currentCollisions.end())
 		{
-			if (std::find(currentCollisions.begin(), currentCollisions.end(), pickInfo.entity) == currentCollisions.end())
-			{
-				currentCollisions.push_back(pickInfo.entity);
-			}
-			
+			currentCollisions.push_back(pickInfo.entity);
 		}
-	}
+	}	
 
 	if (bIsTeleporting)
 	{
@@ -92,16 +88,18 @@ void Teleport::BeginTeleport(Entity* otherEntity)
 
 void Teleport::OnBeginCollision(Entity* otherEntity)
 {
-	Print("Beginning collision with " + otherEntity->GetKeyValue("name", "Unknown"));
-	PlayerController* player = static_cast<PlayerController*>(otherEntity->GetActor());
-	if (player)
+	if (!bIsTeleporting)
 	{
-		player->ToggleIsTeleporting();
-		BeginTeleport(otherEntity);
+		PlayerController* player = static_cast<PlayerController*>(otherEntity->GetActor());
+		if (player)
+		{
+			player->ToggleIsTeleporting();
+			BeginTeleport(otherEntity);
+		}
 	}
 }
 
 void Teleport::OnEndCollision(Entity* otherEntity)
 {
-	Print("Ending collision with " + otherEntity->GetKeyValue("name", "Unknown"));
+
 }
