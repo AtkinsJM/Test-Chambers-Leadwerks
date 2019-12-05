@@ -18,7 +18,7 @@ class MovingPlatform : public Actor
 		//virtual void UpdatePhysics();
 		//virtual void Wake();
 		//virtual void Sleep();
-		virtual void Collision(Entity* otherEntity, const Vec3& position, const Vec3& normal, float speed);
+		//virtual void Collision(Entity* otherEntity, const Vec3& position, const Vec3& normal, float speed);
 		//virtual void PostRender();
 		//virtual void Draw();
 		//virtual void DrawEach(Camera* camera);
@@ -27,6 +27,10 @@ class MovingPlatform : public Actor
 		void BeginTransportation(Entity* otherEntity);
 
 		void Transport();
+
+		void OnBeginCollision(Entity* otherEntity);
+
+		void OnEndCollision(Entity* otherEntity);
 
 	private:
 		Entity* target;
@@ -47,4 +51,7 @@ class MovingPlatform : public Actor
 		Joint* sliderJoint;
 
 		Entity* platform;
+
+		vector<Entity*> collisionsLastFrame;
+		vector<Entity*> currentCollisions;
 };

@@ -59,6 +59,18 @@ void MovingPlatform::UpdateWorld()
 {
 	if (waypoints.size() == 0) { return; }
 
+	
+	PickInfo pickInfo;
+	if (World::GetCurrent()->Pick(Vec3(entity->GetPosition(true).x, -0.01f, entity->GetPosition(true).z), entity->GetPosition(true) + Vec3(0, 0.02f, 0), pickInfo, 0.0f, false, 11))
+	{
+		if (std::find(currentCollisions.begin(), currentCollisions.end(), pickInfo.entity) == currentCollisions.end())
+		{
+			currentCollisions.push_back(pickInfo.entity);
+		}
+
+	}
+	
+
 	if (bIsTransporting)
 	{
 		if (!bIsMoving)
@@ -85,26 +97,27 @@ void MovingPlatform::UpdateWorld()
 					player->ToggleIsBeingTransported();
 				}
 				target->SetParent(nullptr);
-				target = nullptr;
 			}
 		}
 	}
-}
 
-void MovingPlatform::Collision(Entity* otherEntity, const Vec3& position, const Vec3& normal, float speed)
-{
-	if (!bIsTransporting)
+	for (Entity* ent : currentCollisions)
 	{
-		PlayerController* player = static_cast<PlayerController*>(otherEntity->GetActor());
-		if (player)
+		if (std::find(collisionsLastFrame.begin(), collisionsLastFrame.end(), ent) == collisionsLastFrame.end())
 		{
-			if (Math::Abs(player->GetTargetPosition().x - entity->GetPosition().x) <= 0.01f && Math::Abs(player->GetTargetPosition().z - entity->GetPosition().z) <= 0.01f)
-			{
-				player->ToggleIsBeingTransported();
-				BeginTransportation(otherEntity);
-			}	
+			OnBeginCollision(ent);
 		}
 	}
+
+	for (Entity* ent : collisionsLastFrame)
+	{
+		if (std::find(currentCollisions.begin(), currentCollisions.end(), ent) == currentCollisions.end())
+		{
+			OnEndCollision(ent);
+		}
+	}
+	collisionsLastFrame = currentCollisions;
+	currentCollisions.clear();
 }
 
 void MovingPlatform::BeginTransportation(Entity* otherEntity)
@@ -137,4 +150,25 @@ void MovingPlatform::Transport()
 	sliderJoint->SetAngle(-distance);
 
 	bIsMoving = true;
+}
+
+void MovingPlatform::OnBeginCollision(Entity* otherEntity)
+{
+	if (!bIsTransporting && target == nullptr)
+	{
+		PlayerController* player = static_cast<PlayerController*>(otherEntity->GetActor());
+		if (player)
+		{
+			if (Math::Abs(player->GetTargetPosition().x - entity->GetPosition().x) <= 0.01f && Math::Abs(player->GetTargetPosition().z - entity->GetPosition().z) <= 0.01f)
+			{
+				player->ToggleIsBeingTransported();
+				BeginTransportation(otherEntity);
+			}
+		}
+	}
+}
+
+void MovingPlatform::OnEndCollision(Entity* otherEntity)
+{
+	target = nullptr;
 }
