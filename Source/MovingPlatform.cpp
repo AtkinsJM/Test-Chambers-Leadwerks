@@ -7,7 +7,7 @@ MovingPlatform::MovingPlatform()
 	bIsMoving = false;
 	target = nullptr;
 	startTransportTime = 0;
-	delay = 0.5f;
+	delay = 0.2f;
 
 	currentWaypointIndex = 0;
 	sliderJoint = nullptr;
@@ -67,9 +67,7 @@ void MovingPlatform::UpdateWorld()
 		{
 			currentCollisions.push_back(pickInfo.entity);
 		}
-
-	}
-	
+	}	
 
 	if (bIsTransporting)
 	{
