@@ -74,20 +74,6 @@ void Portal::UpdateWorld()
 	currentCollisions.clear();
 }
 
-void Portal::Collision(Entity* otherEntity, const Vec3& position, const Vec3& normal, float speed)
-{
-	return;
-	if (!bIsTeleporting)
-	{
-		PlayerController* player = static_cast<PlayerController*>(otherEntity->GetActor());
-		if (player)
-		{
-			player->ToggleIsTeleporting();
-			BeginTeleport();
-		}
-	}
-}
-
 void Portal::BeginTeleport()
 {
 	bIsTeleporting = true;

@@ -6,7 +6,7 @@ Teleport::Teleport()
 {
 	bIsTeleporting = false;
 	target = nullptr;
-	delay = 0.1f;
+	delay = 0.2f;
 	startTeleportTime = 0;
 
 }
@@ -82,20 +82,6 @@ void Teleport::UpdateWorld()
 	collisionsLastFrame = currentCollisions;
 	currentCollisions.clear();
 }
-
-void Teleport::Collision(Entity* otherEntity, const Vec3& position, const Vec3& normal, float speed)
-{/*
-	if (!bIsTeleporting)
-	{
-		PlayerController* player = static_cast<PlayerController*>(otherEntity->GetActor());
-		if (player)
-		{
-			player->ToggleIsTeleporting();
-			BeginTeleport(otherEntity);
-		}
-	}*/
-}
-
 
 void Teleport::BeginTeleport(Entity* otherEntity)
 {

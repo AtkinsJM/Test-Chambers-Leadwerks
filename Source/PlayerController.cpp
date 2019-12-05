@@ -118,11 +118,6 @@ void PlayerController::UpdateWorld()
 	}
 }
 
-void PlayerController::Collision(Entity* otherEntity, const Vec3& position, const Vec3& normal, float speed)
-{
-
-}
-
 void PlayerController::StartRolling(Vec3 rotationPoint)
 {
 	bIsRolling = true;
