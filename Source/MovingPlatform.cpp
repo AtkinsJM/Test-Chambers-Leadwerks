@@ -61,7 +61,7 @@ void MovingPlatform::UpdateWorld()
 
 	
 	PickInfo pickInfo;
-	if (World::GetCurrent()->Pick(Vec3(entity->GetPosition(true).x, -0.01f, entity->GetPosition(true).z), entity->GetPosition(true) + Vec3(0, 0.02f, 0), pickInfo, 0.0f, false, 11))
+	if (World::GetCurrent()->Pick(entity->GetPosition(true) - Vec3(0, 0.2f, 0), entity->GetPosition(true) + Vec3(0, 0.2f, 0), pickInfo, 0.0f, false, 11))
 	{
 		if (std::find(currentCollisions.begin(), currentCollisions.end(), pickInfo.entity) == currentCollisions.end())
 		{
@@ -69,7 +69,7 @@ void MovingPlatform::UpdateWorld()
 		}
 	}	
 
-	if (bIsTransporting)
+	if (bIsTransporting && target)
 	{
 		if (!bIsMoving)
 		{
