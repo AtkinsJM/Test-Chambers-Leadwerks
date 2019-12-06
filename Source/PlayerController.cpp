@@ -18,6 +18,8 @@ PlayerController::PlayerController()
 	bIsTeleporting = false;
 	bIsBeingTransported = false;
 	
+	currentYPos = 0;
+
 	keyManager = new KeyManager();
 
 	// Set up custom collision type for pick
@@ -69,7 +71,10 @@ void PlayerController::UpdateWorld()
 		}
 		return;
 	}
-	else if (bIsTeleporting || bIsBeingTransported) { return; }
+
+	currentYPos = entity->GetPosition(true).y;
+
+	if (bIsTeleporting || bIsBeingTransported) { return; }
 
 	if (window->KeyDown(Key::W) || window->KeyDown(Key::Up))
 	{

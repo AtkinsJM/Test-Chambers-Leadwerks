@@ -1,4 +1,5 @@
 #include "FollowCamera.h"
+#include "PlayerController.h"
 
 FollowCamera::FollowCamera(Entity* followEntity) : followTarget(followEntity), camera(nullptr)
 {
@@ -38,7 +39,15 @@ void FollowCamera::UpdateWorld()
 {
 	if (!followTarget || !camera) { return; }
 	Vec3 desiredPosition = followTarget->GetPosition(true) + cameraOffset;
-	desiredPosition.y = followHeight + targetHeight/2.0f;
+	desiredPosition.y = followHeight + followTarget->GetPosition(true).y;
+
+	PlayerController* player = static_cast<PlayerController*>(followTarget->GetActor());
+	if (player)
+	{
+		desiredPosition.y = followHeight + player->GetYPos();
+	}
+
+	
 	
 	Vec3 movementVector = desiredPosition - camera->GetPosition();
 	camera->SetVelocity((movementVector.Length() > 0.1f) ? movementVector * movementSpeed : Vec3(0,0,0), true);
