@@ -9,6 +9,7 @@
 #include "GameManager.h"
 #include "UserInterface.h"
 #include "MovingPlatform.h"
+#include "FloorSwitch.h"
 
 using namespace Leadwerks;
 
@@ -107,6 +108,11 @@ void App::PopulateActors()
 		{
 			Actor* movingPlatform = new MovingPlatform();
 			e->SetActor(movingPlatform);
+		}
+		else if (tag == "FloorSwitch")
+		{
+			Actor* floorSwitch = new FloorSwitch();
+			e->SetActor(floorSwitch);
 		}
 	}
 }
