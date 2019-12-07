@@ -19,6 +19,8 @@ void SoundManager::LoadSounds()
 	soundMap["roll"] = Sound::Load("Sound/Custom/roll.wav");
 	soundMap["teleport"] = Sound::Load("Sound/Custom/teleport.wav");
 	soundMap["win"] = Sound::Load("Sound/Custom/win.wav");
+	soundMap["timer"] = Sound::Load("Sound/Custom/timer.ogg");
+	soundMap["switchPress"] = Sound::Load("Sound/Custom/switch_press.wav");
 }
 
 void SoundManager::Play(string key)
@@ -28,4 +30,9 @@ void SoundManager::Play(string key)
 	{
 		sound->Play();
 	}
+}
+
+Sound* SoundManager::LoadSound(string key)
+{
+	return soundMap[key];
 }

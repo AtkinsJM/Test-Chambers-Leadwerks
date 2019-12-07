@@ -24,6 +24,8 @@ class SoundManager : public Actor
 		static void LoadSounds();
 		static void Play(string key);
 
+		static Sound* LoadSound(string key);
+
 	private:
 		static std::map<string, Sound*> soundMap;
 };
