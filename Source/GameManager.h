@@ -43,6 +43,9 @@ public:
 
 	FORCEINLINE static void SetUserInterface(UserInterface* ui) { userInterface = ui; }
 
+	FORCEINLINE static void SetCurrentGroundHeight(float val) { currentGroundHeight = val; }
+	FORCEINLINE static float CurrentGroundHeight() { return currentGroundHeight; }
+
 private:
 	static std::map<int, string> levelMap;
 
@@ -53,4 +56,6 @@ private:
 	static int levelToLoad;
 
 	static UserInterface* userInterface;
+
+	static float currentGroundHeight;
 };

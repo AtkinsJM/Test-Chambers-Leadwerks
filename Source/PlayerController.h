@@ -36,9 +36,7 @@ class PlayerController : public Actor
 		FORCEINLINE Vec3 GetTargetPosition() { return targetPosition; }
 
 		FORCEINLINE KeyManager* GetKeyManager() { return keyManager; }
-
-		FORCEINLINE float GetYPos() { return currentYPos; }
-
+		
 	private:
 		Vec3 forwardRotationPoint, backRotationPoint, leftRotationPoint, rightRotationPoint;
 		float width;
@@ -60,7 +58,4 @@ class PlayerController : public Actor
 		KeyManager* keyManager;
 
 		Vec3 targetPosition;
-
-		float currentYPos;
-
 };

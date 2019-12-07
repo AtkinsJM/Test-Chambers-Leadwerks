@@ -72,6 +72,7 @@ void DoorKey::Attach()
 void DoorKey::UpdateWorld()
 {
 	if (!model) { return; }
+
 	float deltaTime = (Time::GetCurrent() - recordedTime) / 1000.0f;
 	recordedTime = Time::GetCurrent();
 
@@ -131,4 +132,5 @@ void DoorKey::OnBeginCollision(Entity* otherEntity)
 
 void DoorKey::OnEndCollision(Entity* otherEntity)
 {
+
 }

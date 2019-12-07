@@ -5,6 +5,7 @@
 #include "SoundManager.h"
 #include "UserInterface.h"
 #include "KeyManager.h"
+#include "GameManager.h"
 
 PlayerController::PlayerController()
 {
@@ -18,8 +19,6 @@ PlayerController::PlayerController()
 	bIsTeleporting = false;
 	bIsBeingTransported = false;
 	
-	currentYPos = 0;
-
 	keyManager = new KeyManager();
 
 	// Set up custom collision type for pick
@@ -72,7 +71,7 @@ void PlayerController::UpdateWorld()
 		return;
 	}
 
-	currentYPos = entity->GetPosition(true).y;
+	GameManager::SetCurrentGroundHeight(entity->GetPosition(true).y - width / 2.0f);
 
 	if (bIsTeleporting || bIsBeingTransported) { return; }
 
