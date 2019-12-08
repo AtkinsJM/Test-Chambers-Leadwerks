@@ -6,6 +6,7 @@
 #include "UserInterface.h"
 #include "KeyManager.h"
 #include "GameManager.h"
+#include "Lever.h"
 
 PlayerController::PlayerController()
 {
@@ -119,6 +120,12 @@ void PlayerController::UpdateWorld()
 				SoundManager::Play("doorLocked");
 			}
 		}
+
+		Lever* lever = IsLeverPresent();
+		if (lever)
+		{
+			lever->PullLever();
+		}
 	}
 }
 
@@ -170,18 +177,33 @@ Door* PlayerController::IsDoorPresent()
 {
 	// Raycast in all four direction to see if player is adjacent to a door. If there is a door, return it
 	PickInfo pickInfo;
-	if (World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(0, 0, width), pickInfo) ||
-		World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(0, 0, -width), pickInfo) ||
-		World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(width, 0, 0), pickInfo) ||
-		World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(-width, 0, 0), pickInfo))
+	if ((World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(0, 0, width), pickInfo)) && (pickInfo.entity->GetKeyValue("tag") == "Door") ||
+		(World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(0, 0, -width), pickInfo)) && (pickInfo.entity->GetKeyValue("tag") == "Door") ||
+		(World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(width, 0, 0), pickInfo)) && (pickInfo.entity->GetKeyValue("tag") == "Door") ||
+		(World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(-width, 0, 0), pickInfo)) && (pickInfo.entity->GetKeyValue("tag") == "Door"))
 	{
-		if (pickInfo.entity->GetKeyValue("tag") == "Door")
+		Door* door = static_cast<Door*>(pickInfo.entity->GetActor());
+		if (door)
 		{
-			Door* door = static_cast<Door*>(pickInfo.entity->GetActor());
-			if (door)
-			{
-				return door;
-			}
+			return door;
+		}
+	}
+	return nullptr;
+}
+
+Lever* PlayerController::IsLeverPresent()
+{
+	// Raycast in all four direction to see if player is adjacent to a lever. If there is a lever, return it
+	PickInfo pickInfo;
+	if ((World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(0, 0, width), pickInfo)) && (pickInfo.entity->GetKeyValue("tag") == "Lever") ||
+		(World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(0, 0, -width), pickInfo)) && (pickInfo.entity->GetKeyValue("tag") == "Lever") ||
+		(World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(width, 0, 0), pickInfo)) && (pickInfo.entity->GetKeyValue("tag") == "Lever") ||
+		(World::GetCurrent()->Pick(entity->GetPosition(true), entity->GetPosition(true) + Vec3(-width, 0, 0), pickInfo)) && (pickInfo.entity->GetKeyValue("tag") == "Lever"))
+	{
+		Lever* lever = static_cast<Lever*>(pickInfo.entity->GetActor());
+		if (lever)
+		{
+			return lever;
 		}
 	}
 	return nullptr;

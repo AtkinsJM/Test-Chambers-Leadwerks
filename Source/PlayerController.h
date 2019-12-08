@@ -5,6 +5,7 @@ using namespace Leadwerks;
 
 class Door;
 class KeyManager;
+class Lever;
 
 class PlayerController : public Actor
 {
@@ -29,6 +30,8 @@ class PlayerController : public Actor
 		bool IsBlocked(Vec3 direction);
 
 		Door* IsDoorPresent();
+
+		Lever* IsLeverPresent();
 
 		FORCEINLINE void ToggleIsTeleporting() { bIsTeleporting = !bIsTeleporting; }
 		FORCEINLINE void ToggleIsBeingTransported() { bIsBeingTransported = !bIsBeingTransported; }

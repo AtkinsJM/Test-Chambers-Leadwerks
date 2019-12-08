@@ -10,6 +10,7 @@
 #include "UserInterface.h"
 #include "MovingPlatform.h"
 #include "FloorSwitch.h"
+#include "Lever.h"
 
 using namespace Leadwerks;
 
@@ -113,6 +114,11 @@ void App::PopulateActors()
 		{
 			Actor* floorSwitch = new FloorSwitch();
 			e->SetActor(floorSwitch);
+		}
+		else if (tag == "Lever")
+		{
+			Actor* lever = new Lever();
+			e->SetActor(lever);
 		}
 	}
 }

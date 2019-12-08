@@ -21,6 +21,8 @@ void SoundManager::LoadSounds()
 	soundMap["win"] = Sound::Load("Sound/Custom/win.wav");
 	soundMap["timer"] = Sound::Load("Sound/Custom/timer.ogg");
 	soundMap["switchPress"] = Sound::Load("Sound/Custom/switch_press.wav");
+	soundMap["lever1"] = Sound::Load("Sound/Custom/lever_1.wav");
+	soundMap["lever2"] = Sound::Load("Sound/Custom/lever_2.wav");
 }
 
 void SoundManager::Play(string key)

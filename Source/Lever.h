@@ -3,11 +3,11 @@
 
 using namespace Leadwerks;
 
-class MovingPlatform : public Actor
+class Lever : public Actor
 {
 	public:
-		MovingPlatform();
-		~MovingPlatform();
+		Lever();
+		~Lever();
 		virtual void Attach();
 		//virtual void Detach();
 		virtual void UpdateWorld();
@@ -21,34 +21,12 @@ class MovingPlatform : public Actor
 		//virtual void DrawEach(Camera* camera);
 		//virtual void ReceiveSignal(const std::string& inputname, Entity* sender);
 
-		void BeginTransportation(Entity* otherEntity);
-
-		void Transport();
-
-		void OnBeginCollision(Entity* otherEntity);
-
-		void OnEndCollision(Entity* otherEntity);
+		void PullLever();
 
 	private:
-		Entity* target;
+		std::vector<Entity*> targets;
 
-		Vec3 targetRelativePos;
-		bool bIsTransporting;
-		bool bIsMoving;
+		Entity* leverArm;
 
-		float startTransportTime;
-
-		float delay;
-		
-		std::vector<Vec3> waypoints;
-		int currentWaypointIndex;
-
-		float speed;
-
-		Joint* sliderJoint;
-
-		Entity* platform;
-
-		vector<Entity*> collisionsLastFrame;
-		vector<Entity*> currentCollisions;
+		float armAngle;
 };

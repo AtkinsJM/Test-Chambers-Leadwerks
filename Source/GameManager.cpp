@@ -14,6 +14,7 @@ bool GameManager::bIsGameActive;
 bool GameManager::bIsLoadingLevel;
 int GameManager::levelToLoad;
 UserInterface* GameManager::userInterface;
+float GameManager::currentGroundHeight;
 
 
 GameManager::GameManager()
