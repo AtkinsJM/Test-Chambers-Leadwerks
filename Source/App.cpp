@@ -43,7 +43,7 @@ bool App::Start()
 	GameManager::SetIsGameActive(true);
 	GameManager::LoadMaps();
 	SoundManager::LoadSounds();
-	GameManager::StartLoadingLevel(2);
+	GameManager::StartLoadingLevel(0);
 
 	return true;
 }
