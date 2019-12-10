@@ -11,6 +11,7 @@
 #include "MovingPlatform.h"
 #include "FloorSwitch.h"
 #include "Lever.h"
+#include "LaserGate.h"
 
 using namespace Leadwerks;
 
@@ -43,7 +44,7 @@ bool App::Start()
 	GameManager::SetIsGameActive(true);
 	GameManager::LoadMaps();
 	SoundManager::LoadSounds();
-	GameManager::StartLoadingLevel(0);
+	GameManager::StartLoadingLevel(2);
 
 	return true;
 }
@@ -119,6 +120,11 @@ void App::PopulateActors()
 		{
 			Actor* lever = new Lever();
 			e->SetActor(lever);
+		}
+		else if (tag == "LaserGate")
+		{
+			Actor* laserGate = new LaserGate();
+			e->SetActor(laserGate);
 		}
 	}
 }
