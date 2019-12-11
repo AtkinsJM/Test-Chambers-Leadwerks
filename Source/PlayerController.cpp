@@ -11,7 +11,7 @@
 PlayerController::PlayerController()
 {
 	width = 1.28f;
-	rotationSpeed = 160.0f;
+	rotationSpeed = 180.0f;
 	rotationAngle = 0;
 	window = Window::GetCurrent();
 	bIsRolling = false;
@@ -42,8 +42,7 @@ void PlayerController::Attach()
 	// Set up physics on player
 	entity->SetPhysicsMode(Entity::RigidBodyPhysics);
 	entity->SetCollisionType(Collision::Character);
-	entity->SetSweptCollisionMode(true);
-	entity->SetShape(Shape::Box());
+	entity->SetShape(Shape::Box(0, 0, 0, 0, 0, 0, width, width, width));
 	entity->SetGravityMode(false);
 	entity->SetMass(1);
 	entity->SetShadowMode(Light::Dynamic);
