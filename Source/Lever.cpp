@@ -1,5 +1,6 @@
 #include "Lever.h"
 #include "SoundManager.h"
+#include "LaserGate.h"
 
 Lever::Lever()
 {
@@ -28,10 +29,14 @@ void Lever::Attach()
 			string keyName = "target" + String(i);
 			if (entity->GetKeyValue(keyName) != "")
 			{
-				Entity* target = World::GetCurrent()->FindEntity(entity->GetKeyValue(keyName));
-				if (target)
+				Entity* targetEnt = World::GetCurrent()->FindEntity(entity->GetKeyValue(keyName));
+				if (targetEnt)
 				{
-					targets.push_back(target);
+					LaserGate* target = static_cast<LaserGate*>(targetEnt->GetActor());
+					if (target)
+					{
+						targets.push_back(target);
+					}
 				}
 			}
 		}
@@ -44,16 +49,9 @@ void Lever::UpdateWorld()
 
 void Lever::PullLever()
 {
-	for (Entity* ent : targets)
+	for (LaserGate* laserGate : targets)
 	{
-		if (ent->hidestate == true)
-		{
-			ent->Show();
-		}
-		else
-		{
-			ent->Hide();
-		}
+		laserGate->ToggleGate();
 	}
 	if (leverArm)
 	{

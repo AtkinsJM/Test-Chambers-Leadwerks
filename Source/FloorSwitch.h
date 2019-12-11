@@ -3,6 +3,8 @@
 
 using namespace Leadwerks;
 
+class LaserGate;
+
 class FloorSwitch : public Actor
 {
 	public:
@@ -26,7 +28,7 @@ class FloorSwitch : public Actor
 		void OnEndCollision(Entity* otherEntity);
 
 	private:
-		std::vector<Entity*> targets;
+		std::vector<LaserGate*> targets;
 
 		float delay;
 

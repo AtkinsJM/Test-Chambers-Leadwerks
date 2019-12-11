@@ -3,6 +3,8 @@
 
 using namespace Leadwerks;
 
+class LaserGate;
+
 class Lever : public Actor
 {
 	public:
@@ -24,7 +26,7 @@ class Lever : public Actor
 		void PullLever();
 
 	private:
-		std::vector<Entity*> targets;
+		std::vector<LaserGate*> targets;
 
 		Entity* leverArm;
 

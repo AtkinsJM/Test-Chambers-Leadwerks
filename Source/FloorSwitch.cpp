@@ -1,5 +1,6 @@
 #include "FloorSwitch.h"
 #include "SoundManager.h"
+#include "LaserGate.h"
 
 FloorSwitch::FloorSwitch()
 {
@@ -39,10 +40,14 @@ void FloorSwitch::Attach()
 			string keyName = "target" + String(i);
 			if (entity->GetKeyValue(keyName) != "")
 			{
-				Entity* target = World::GetCurrent()->FindEntity(entity->GetKeyValue(keyName));
-				if (target)
+				Entity* targetEnt = World::GetCurrent()->FindEntity(entity->GetKeyValue(keyName));
+				if (targetEnt)
 				{
-					targets.push_back(target);
+					LaserGate* target = static_cast<LaserGate*>(targetEnt->GetActor());
+					if (target)
+					{
+						targets.push_back(target);
+					}
 				}
 			}
 		}
@@ -72,9 +77,9 @@ void FloorSwitch::UpdateWorld()
 				switchEntity->SetPosition(switchUnpressedPos);
 				switchEntity->SetColor(unpressedColor.r, unpressedColor.g, unpressedColor.b);
 			}
-			for (Entity* ent : targets)
+			for (LaserGate* laserGate : targets)
 			{
-				ent->Show();
+				laserGate->ToggleGate();
 				timerSource->Stop();
 				SoundManager::Play("switchPress");
 			}
@@ -103,14 +108,14 @@ void FloorSwitch::UpdateWorld()
 
 void FloorSwitch::OnBeginCollision(Entity* otherEntity)
 {
-	Print("Floor switch begin collision");
+	if (bIsTimerSet) { return; }
 	if (switchEntity)
 	{
 		switchEntity->SetPosition(switchPressedPos);
 	}
-	for (Entity* ent : targets)
+	for (LaserGate* laserGate : targets)
 	{
-		ent->Hide();
+		laserGate->ToggleGate();
 		switchEntity->SetColor(pressedColor.r, pressedColor.g, pressedColor.b);
 	}
 	SoundManager::Play("switchPress");
@@ -118,7 +123,6 @@ void FloorSwitch::OnBeginCollision(Entity* otherEntity)
 
 void FloorSwitch::OnEndCollision(Entity* otherEntity)
 {
-	Print("Floor switch end collision");
 	bIsTimerSet = true;
 	startTimerTime = Time::GetCurrent();
 	timerSource = Source::Create();

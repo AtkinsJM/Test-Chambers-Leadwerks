@@ -21,8 +21,14 @@ class LaserGate : public Actor
 		//virtual void DrawEach(Camera* camera);
 		//virtual void ReceiveSignal(const std::string& inputname, Entity* sender);
 
+		void ToggleGate();
+
+		void Activate();
+		void Deactivate();
 
 	private:
 		std::vector<Emitter*> particleSystems;
+
+		bool bIsActive;
 		
 };
