@@ -12,8 +12,6 @@ MovingPlatform::MovingPlatform()
 	currentWaypointIndex = 0;
 	sliderJoint = nullptr;
 	speed = 1.0f;
-
-	platform = nullptr;
 }
 
 MovingPlatform::~MovingPlatform()
@@ -24,9 +22,6 @@ void MovingPlatform::Attach()
 {
 	entity->SetGravityMode(false);
 	entity->SetMass(-1);
-	entity->SetSweptCollisionMode(true);
-	platform = entity->GetChild(0);
-	platform->SetMass(0);
 
 	int numWaypoints = String::Int(entity->GetKeyValue("numWaypoints"));
 	Vec3 startPos = entity->GetPosition(true);
@@ -61,7 +56,7 @@ void MovingPlatform::UpdateWorld()
 
 	
 	PickInfo pickInfo;
-	if (World::GetCurrent()->Pick(entity->GetPosition(true) - Vec3(0, 0.5f, 0), entity->GetPosition(true) + Vec3(0, 0.5f, 0), pickInfo, 0.0f, false, 11))
+	if (World::GetCurrent()->Pick(entity->GetPosition(true) - Vec3(0, 0.25f, 0), entity->GetPosition(true) + Vec3(0, 0.64f, 0), pickInfo, 0.0f, false, 11))
 	{
 		if (std::find(currentCollisions.begin(), currentCollisions.end(), pickInfo.entity) == currentCollisions.end())
 		{

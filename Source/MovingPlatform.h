@@ -46,9 +46,7 @@ class MovingPlatform : public Actor
 		float speed;
 
 		Joint* sliderJoint;
-
-		Entity* platform;
-
+		
 		vector<Entity*> collisionsLastFrame;
 		vector<Entity*> currentCollisions;
 };
